@@ -1,7 +1,12 @@
 from django.db import models
+from django.conf import settings
 
 class Images(models.Model):
     image = models.ImageField(upload_to='media/')
+
+    class Meta:
+        verbose_name = "Araç İlan Resmi"
+        verbose_name_plural = "Araç İlan Resimleri"
 
 
 class Damage(models.Model):
@@ -30,16 +35,69 @@ class Damage(models.Model):
     name = models.CharField(max_length=200,choices=DAMAGE_PARTS_NAME_CHOICES)
     damagetype = models.CharField(max_length=20,choices=DAMAGE_PARTS_TYPE_CHOICES)
 
+    class Meta:
+        verbose_name = "Hasarlı Parça"
+        verbose_name_plural = "Hasarlı Parçalar"
+
+
+class CarBrand(models.Model):
+    brandname = models.CharField(max_length=30,null=False,blank=False)
+    image = models.ImageField(upload_to='media/')
+
+    class Meta:
+        verbose_name = "Araba Markası"
+        verbose_name_plural = "Araba Markaları"
+
+    def __str__(self):
+        return f"{self.brandname}"
+    
+
+class FuelType(models.Model):
+    fueltype = models.CharField(max_length=20,null=False,blank=False)
+
+    class Meta:
+        verbose_name = "Yakıt Türü"
+        verbose_name_plural = "Yakıt Türleri"
+
+    def __str__(self):
+        return f"{self.fueltype}"
+
+
+class CarModel(models.Model):
+    brand = models.ForeignKey(CarBrand,null=False,blank=False,on_delete=models.CASCADE)
+    modelname = models.CharField(max_length=100,null=False,blank=False)
+    modelyear = models.IntegerField(null=False,blank=False)
+    fueltype = models.ForeignKey(FuelType,null=False,blank=False,on_delete=models.CASCADE)
+    enginesize = models.IntegerField(null=False,blank=False) #Aracın motor hacmi
+    enginepower = models.CharField(max_length=6,null=False,blank=False) #Aracın Motor gücü
+    image = models.ImageField(upload_to='media/')
+
+    class Meta:
+        verbose_name = "Araba Modeli"
+        verbose_name_plural = "Araba Modelleri"
+
+    def __str__(self):
+        return f"{self.brand} | {self.modelname} | {self.modelyear} | {self.enginesize}"
+
 
 class CarSaleAd(models.Model):
-    adname = models.CharField(max_length=150,null=False,blank=False)
-    images = models.ForeignKey(Images,null=False,blank=False)
-    price = models.IntegerField(null=False,blank=False)
-    damage = models.ForeignKey(Damage,null=True,blank=True)
-    tramer = models.IntegerField(null=True,blank=True)
-    numberplate = models.CharField(max_length=10,null=True,blank=True)
-    brand = models.CharField()
-    model = models.CharField()
-    modelyear = models.IntegerField(max_length=4,null=False,blank=False)
+    adname = models.CharField(max_length=150,null=False,blank=False) # İlan ismi
+    images = models.ForeignKey(Images,null=False,blank=False,on_delete=models.CASCADE) #İlan Resmi
+    startingprice = models.IntegerField(null=False,blank=False) #İlan fiyatı
+    damage = models.ForeignKey(Damage,null=True,blank=True,on_delete=models.CASCADE) #İlandaki aracın hasarı
+    tramer = models.IntegerField(null=True,blank=True) #İlandaki aracın tramer kaydı
+    numberplate = models.CharField(max_length=10,null=True,blank=True) #İlandaki aracın plakası
+    brand = models.ForeignKey(CarBrand,null=False,blank=False,on_delete=models.CASCADE) #Aracın markası
+    model = models.ForeignKey(CarModel,null=False,blank=False,on_delete=models.CASCADE) #Aracın modeli
+    targetime = models.DateTimeField(null=False,blank=False)
+    adescription = models.TextField() #İlan açıklaması
+    advertiser = models.ForeignKey(settings.AUTH_USER_MODEL,null=False,blank=False,on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Araba İlanı"
+        verbose_name_plural = "Araba İlanları"
+
+    def __str__(self):
+        return f"{self.adname}"
 
 
