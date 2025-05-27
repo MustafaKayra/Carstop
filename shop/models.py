@@ -40,7 +40,7 @@ class Damage(models.Model):
         verbose_name_plural = "Hasarlı Parçalar"
 
 
-class CarBrand(models.Model):
+class CarBrand(models.Model): #Admin paneli üzerinden yönetici tarafından eklenecek
     brandname = models.CharField(max_length=30,null=False,blank=False)
     image = models.ImageField(upload_to='media/')
 
@@ -52,7 +52,7 @@ class CarBrand(models.Model):
         return f"{self.brandname}"
     
 
-class FuelType(models.Model):
+class FuelType(models.Model): #Admin paneli üzerinden yönetici tarafından eklenecek
     fueltype = models.CharField(max_length=20,null=False,blank=False)
 
     class Meta:
@@ -63,7 +63,7 @@ class FuelType(models.Model):
         return f"{self.fueltype}"
 
 
-class CarModel(models.Model):
+class CarModel(models.Model): #Admin paneli üzerinden yönetici tarafından eklenecek
     brand = models.ForeignKey(CarBrand,null=False,blank=False,on_delete=models.CASCADE)
     modelname = models.CharField(max_length=100,null=False,blank=False)
     modelyear = models.IntegerField(null=False,blank=False)
