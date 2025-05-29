@@ -1,0 +1,10 @@
+.buttonitem {
+    border-radius: 20px;
+    width: 400px !important;
+}
+
+.carditem {
+    border: 0px !important;
+    padding-left: 110px !important;
+    margin-top: 90px !important;
+}

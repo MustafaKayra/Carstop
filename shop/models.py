@@ -42,7 +42,7 @@ class Damage(models.Model):
 
 class CarBrand(models.Model): #Admin paneli üzerinden yönetici tarafından eklenecek
     brandname = models.CharField(max_length=30,null=False,blank=False)
-    image = models.ImageField(upload_to='media/')
+    image = models.ImageField()
 
     class Meta:
         verbose_name = "Araba Markası"
@@ -77,7 +77,7 @@ class CarModel(models.Model): #Admin paneli üzerinden yönetici tarafından ekl
         verbose_name_plural = "Araba Modelleri"
 
     def __str__(self):
-        return f"{self.brand} | {self.modelname} | {self.modelyear} | {self.enginesize}"
+        return f"{self.brand} | {self.modelname} | {self.modelyear} | {self.fueltype} | {self.enginesize}"
 
 
 class CarSaleAd(models.Model):

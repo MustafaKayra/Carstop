@@ -1,17 +1,31 @@
 from django.shortcuts import render
-from .models import CarSaleAd, Damage
-from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm
+from .models import CarSaleAd, Damage, CarBrand, CarModel
+from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm, CarBrandForm
+
+def index(request):
+    return render(request, "index.html")
 
 
+def adpost(request):
+    form1 = CarBrandForm()
+    form2 = DamageForm()
+    form4 = ImagesForm()
+    form3 = CarSaleAdForm()
+    carbrand = CarBrand.objects.all()
 
-def adpost2(request):
+
     if request.method == "POST":
 
         if "form1" in request.POST:
-            form1 = CarModelForm(request.POST)
+            form1 = CarBrandForm(request.POST)
             if form1.is_valid():
-                brand = form1.cleaned_data.get("brand")
-                model = form1.cleaned_data.get("model")
+                brandname = form1.cleaned_data.get("brandname")
+                brandobject = CarBrand.objects.get(brandname=brandname)
+                modelobject = CarModel.objects.filter(brand=brandobject)
+                print(brandname)
+                print(brandobject)
+                print(modelobject)
+
 
         elif "form2" in request.POST:
             form2 = DamageForm(request.POST)
@@ -23,7 +37,6 @@ def adpost2(request):
         elif "form4" in request.POST:
             form4 = ImagesForm(request.POST, request.FILES)
             if form4.is_valid():
-                
                 image_instance = form4.save(commit=False)
                 image_instance.save()
                 request.session['image_ins'] = image_instance.id
@@ -41,10 +54,25 @@ def adpost2(request):
                 image_instances = request.session.get('image_ins')
                 advertiser = request.user
 
-                CarSaleAd.objects.create(adname=adname,images=image_instances,startingprice=startingprice,damage=damage,tramer=tramer,numberplate=numberplate,brand=brand,model=model,targetime=targetime,adescription=adescription,advertiser=advertiser)
+                CarSaleAd.objects.create(adname=adname,images=image_instances,startingprice=startingprice,damage=damage,tramer=tramer,numberplate=numberplate,targetime=targetime,adescription=adescription,advertiser=advertiser)
                 print("İlan Oluşturuldu")
+        context = {
+            'carbrand': carbrand,
+            'form1': form1,
+            'form2': form2,
+            'form4': form4,
+            'form3': form3
+        }
+        return render(request,"adpost.html",context)
     
     else:
-        return render(request,"adpost.html")
+        context = {
+            'carbrand': carbrand,
+            'form1': form1,
+            'form2': form2,
+            'form4': form4,
+            'form3': form3
+        }
+        return render(request,"adpost.html",context)
 
         

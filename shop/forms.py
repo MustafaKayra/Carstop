@@ -1,5 +1,12 @@
 from django import forms
-from .models import CarSaleAd, Images, Damage
+from .models import CarSaleAd, Images, Damage, CarBrand
+
+class CarBrandForm(forms.ModelForm):
+    class Meta:
+        model = CarBrand
+        fields = ['brandname']
+
+
 
 class CarModelForm(forms.ModelForm):
     class Meta:
