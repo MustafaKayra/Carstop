@@ -110,11 +110,11 @@
                             <span class="input-group-text">TL</span>
 
                             <label class="invisible">111</label>
-                            <input type="number" name="tramer" class="form-control col-md-3 offset-md-1" placeholder="Tramer Kaydı">
+                            <input type="number" name="tramer" class="form-control col-md-3 offset-md-1" placeholder="Tramer Kaydı(zorunlu değil)">
                             <span class="input-group-text">TL</span>
 
                             <label class="invisible">111</label>
-                            <input type="text" name="numberplate" class="form-control col-md-3 offset-md-1" placeholder="Plaka">
+                            <input type="text" name="numberplate" class="form-control col-md-3 offset-md-1" placeholder="Plaka(zorunlu değil)">
                         </div>
                     </div>
 
@@ -210,7 +210,7 @@
             </div>
             <hr>
             
-
+            {% if damagedpart %}
             <div class="container">
                 <div class="row addedparts">
 
@@ -233,6 +233,10 @@
 
                 </div>
             </div>
+            {% else %}
+                
+            {% endif %}
+            
 
         {% elif step == 5 %}
 
@@ -253,6 +257,7 @@
                 </div>
             </div>
             <hr>
+            {% if imageobjects %}
             <div class="container">
                 <div class="row">
                     <h1 class="text-center addedimage">Araç Resimleri</h1>
@@ -273,6 +278,15 @@
                     </form>
                 </div>
             </div>
+            {% else %}
+                    <form method="post">
+                    {% csrf_token %}
+                        <div style="text-align: center;">
+                            <button class="btn btn-success addedimagebutton" name="step6">İlanı Oluştur</button>
+                        </div>
+                    </form>
+            {% endif %}
+            
     {% else %}
     {% endif %}
 
