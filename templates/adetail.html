@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carstop | İlan Oluştur</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.css" integrity="sha512-BB0bszal4NXOgRP9MYCyVA0NNK2k1Rhr+8klY17rj4OhwTmqdPUQibKUDeHesYtXl7Ma2+tqC6c7FzYuHhw94g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css" integrity="sha512-MT4B7BDQpIoW1D7HNPZNMhCD2G6CDXia4tjCdgqQLyq2a9uQnLPLgMNbdPY7g6di3hHjAI8NGVqhstenYrzY1Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="carouselExampleIndicators" class="carousel slide col-6 carouselslide" data-bs-ride="carousel">
+                
+                <!-- Göstergeler (nokta) -->
+                <div class="carousel-indicators">
+                    {% for image in images %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}"
+                        class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}">
+                    </button>
+                    {% endfor %}
+                </div>
+
+                <!-- Görseller -->
+                <div class="carousel-inner carouselinner">
+                    {% for image in images %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %} carouselitem">
+                        <img src="{{ image.image.url }}" class="d-block carouselimage" alt="...">
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="image-footer">
+                    <h1 class="text-center detailadname">{{ ad.adname }}</h1>
+                </div>
+                <!-- Önceki / Sonraki düğmeleri -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <table class="table table-striped detailtable">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Mevcut Fiyat</th>
+                            <td>{{ ad.startingprice }} TL</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">İlan Bitiş Tarihi</th>
+                            {% if countdown == "Zaman Doldu!" %}
+                            <td>İlan Zamanı Doldu!</td>
+                            {% else %}
+                            <td>{{ countdown.days }} Gün, {{ countdown.hours }} Saat, {{ countdown.minutes }} Dakika, {{ countdown.seconds }} Saniye</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Tramer Kaydı</th>
+                            {% if ad.tramer %}
+                                <td>{{ ad.tramer }} TL</td>
+                            {% else %}
+                                <td>Belirtilmedi</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Plaka</th>
+                            {% if ad.numberplate %}
+                                <td>{{ ad.numberplate }}</td>
+                            {% else %}
+                                <td>Belirtilmedi</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th scope="row">Marka</th>
+                            <td>{{ ad.brand.brandname }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Model</th>
+                            <td>{{ ad.model.modelname }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Model Yılı</th>
+                            <td>{{ ad.model.modelyear }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Yakıt Türü</th>
+                            <td>{{ ad.model.fueltype }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Motor Hacmi</th>
+                            <td>{{ ad.model.enginesize }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Motor Gücü</th>
+                            <td>{{ ad.model.enginepower }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">İlan Sahibi</th>
+                            <td>{{ ad.advertiser.first_name }} {{ ad.advertiser.last_name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% if ad.adescription %}
+    <h2 class="text-center detaildescriptiontitle">İlan Açıklaması</h2>
+    <div class="detaildescription">
+        <p>{{ ad.adescription }}</p>
+    </div>
+    {% else %}
+    <h2 class="text-center detaildescriptiontitle">İlan Açıklaması Belirtilmemiş</h2>
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+            {% if damagedparts %}
+                <div class="detaildamage">
+                    <h2 class="detaildamagetitle">Hasarlı Parçalar</h2>
+                    <table class="table table-striped detaildamagetable">
+                    <tbody>
+                    {% for part in damagedparts %}
+                        <tr>
+                            <th scope="row">{{ part.get_name_display }}</th>
+                            <td>{{ part.get_damagetype_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% else %}
+                <div class="detaildamage">
+                    <h2 class="detaildamagetitle">Hasarlı Parça Belirtilmedi</h2>
+                    <table class="table table-striped detaildamagetable">
+                    <tbody>
+                    {% for part in damagedparts %}
+                        <tr>
+                            <th scope="row">{{ part.get_name_display }}</th>
+                            <td>{{ part.get_damagetype_display }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            {% endif %}
+            </div>
+            <div class="col-6">
+                <div class="detailuser">
+                    <div class="card detailusercard">
+                        <img src="{% static 'images/top-1509626747.jpg' %}" class="detailuserimage" alt="...">
+                        <hr>
+                        <div class="card-body">
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Teklif Yap</h1>
+        </div>
+        <form method="post">
+        {% csrf_token %}
+        {% if countdown == "Zaman Doldu!" %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group adforminteger">
+                        <label class="invisible"></label>
+                        <input type="number" name="price" class="form-control col-md-3 offset-md-1" placeholder="Önerdiğin Fiyat" disabled>
+                        <span class="input-group-text">TL</span>
+                    </div>
+                </div>
+                <div class="col-12 text-center" style="padding-bottom: 30px !important;">
+                    <button class="btn btn-success" disabled>Teklifi Gönder</button>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group adforminteger">
+                        <label class="invisible"></label>
+                        <input type="number" name="price" class="form-control col-md-3 offset-md-1" placeholder="Önerdiğin Fiyat">
+                        <span class="input-group-text">TL</span>
+                    </div>
+                </div>
+                <div class="col-12 text-center" style="padding-bottom: 30px !important;">
+                    <button class="btn btn-success">Teklifi Gönder</button>
+                </div>
+            </div>
+        {% endif %}
+        </form>
+    </div>
+    
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.js" integrity="sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.js" integrity="sha512-1QoWYDbO//G0JPa2VnQ3WrXtcgOGGCtdpt5y9riMW4NCCRBKQ4bs/XSKJAUSLIIcHmvUdKCXmQGxh37CQ8rtZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+    $(document).ready(function () {
+        $('#datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            language: 'tr'
+        });
+    });
+    </script>
+
+    <script>
+    $(document).ready(function () {
+        $('.clockpicker').clockpicker({
+            autoclose: true
+        });
+    });
+    </script>
+    
+</body>
+</html>

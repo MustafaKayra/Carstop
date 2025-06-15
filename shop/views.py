@@ -2,9 +2,14 @@ from django.shortcuts import render, redirect
 from .models import CarSaleAd, Damage, CarBrand, CarModel, Images
 from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm, CarBrandForm, CarModelBrandForm
 from django.core.exceptions import ValidationError
+from .utils import get_countdown_data
 
 def index(request):
-    return render(request, "index.html")
+    ads = CarSaleAd.objects.all()
+    context = {
+        "ads": ads
+    }
+    return render(request, "index.html", context)
 
 
 def adpost(request):
@@ -168,5 +173,34 @@ def adpost(request):
             'imageobjects': imageobjects
         }
         return render(request,"adpost.html",context)
+    
 
+
+def adetail(request,slug):
+    ad = CarSaleAd.objects.get(slug=slug)
+    countdown = get_countdown_data(ad)
+
+    images = ad.images_set.all()  # Bu ilanla ilişkili tüm resimleri al
+
+    damagedparts = Damage.objects.filter(ad=ad)
+    print(f"Damaged parts: {damagedparts}")
+
+    if request.method == "POST":
+        newprice = request.POST.get("price")
+        if int(newprice) > ad.startingprice:
+            ad.startingprice = newprice
+            ad.save()
+            print("İlan Fiyatı Güncellendi")
+        else:
+            print("Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
+
+    
+
+    context = {
+        "ad": ad,
+        "images": images,
+        "damagedparts": damagedparts,
+        "countdown": countdown
+    }
+    return render(request,"adetail.html",context)
         

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class CarBrand(models.Model): #Admin paneli üzerinden yönetici tarafından eklenecek
@@ -52,6 +53,7 @@ class CarSaleAd(models.Model):
     targetime = models.DateTimeField(null=False,blank=False)
     adescription = models.TextField() #İlan açıklaması
     advertiser = models.ForeignKey(settings.AUTH_USER_MODEL,null=False,blank=False,on_delete=models.CASCADE)
+    slug = models.SlugField(null=True,blank=True,unique=True,db_index=True)
 
     class Meta:
         verbose_name = "Araba İlanı"
@@ -59,6 +61,15 @@ class CarSaleAd(models.Model):
 
     def __str__(self):
         return f"{self.adname}"
+    
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+        super().save(*args, **kwargs)
+
+        if creating:
+            self.slug = slugify(f"{self.adname}-{self.id}")
+            # Slug değeri değiştiyse tekrar kaydet
+            self.save(update_fields=["slug"])
     
 
 
