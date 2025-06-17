@@ -260,14 +260,44 @@ th {
     width: 700px;
     height: 620px;
     margin: 0 auto; /* ortalar */
-    border-top: 2px solid #000000; /* görselden ayrım için çizgi */
-    border-left: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-    border-right: 2px solid #000000;
+    border-top: 2px solid #ccc; /* görselden ayrım için çizgi */
+    border-left: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    border-right: 2px solid #ccc;
     padding: 10px 0;
     text-align: center;
     margin-left: -100px;
     margin-bottom: 100px !important;
     border-radius: 20px;
     padding-left: 20px;
+}
+
+.createusergsm {
+    padding-top: 24px;
+}
+
+.createusernamerow {
+    padding-top: 40px;
+}
+
+.createuserimagerow {
+    padding-top: 40px;
+}
+
+.createuserprofilepicture {
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* isteğe bağlı gölge */
+}
+
+.createuserbiographyrow {
+    padding-top: 40px;
+}
+
+.createuserbutton {
+    margin-top: 25px !important;
 }
