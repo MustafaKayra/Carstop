@@ -10,5 +10,6 @@ urlpatterns = [
     path('',views.index,name="index"),
     path('publishcar/',views.adpost,name="adpost"),
     path('ad/<slug:slug>',views.adetail,name="adetail"),
-    path('createuser/',users_views.createuser,name="createuser")
+    path('createuser/',users_views.createuser,name="createuser"),
+    path('loginuser/',users_views.loginuser,name="loginuser")
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
