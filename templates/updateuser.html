@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carstop | Kullanıcı Oluştur</title>
+    <title>Carstop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
@@ -14,6 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+    
 
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -48,7 +49,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label class="invisible"></label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Adresiniz" name="email">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Adresiniz" name="email" value="{{ form.email.value|default:user.email }}">
                     </div>
                 </div>
 
@@ -56,7 +57,11 @@
                     <div class="input-group createusergsm">
                         <label class="invisible"></label>
                         <span class="input-group-text">+90</span>
-                        <input type="number" name="gsmnumber" class="form-control" placeholder="Telefon Numaranız">
+                        {% if form.gsmnumber.value == None %}
+                            <input type="number" name="gsmnumber" class="form-control" placeholder="Telefon Numaranız">
+                        {% else %}
+                            <input type="number" name="gsmnumber" class="form-control" placeholder="Telefon Numaranız" value="{{ form.gsmnumber.value|default:user.gsmnumber }}">
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -64,15 +69,25 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">İsim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="İsminiz" name="first_name">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="İsminiz" name="first_name" value="{{ form.first_name.value|default:user.first_name }}">
                     </div>
                 </div>
                 
                 <div class="col-6">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Soy isim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Soy isminiz" name="last_name">
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Soy isminiz" name="last_name" value="{{ form.last_name.value|default:user.last_name }}">
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <h5 class="text-center" style="padding-top: 30px;">Mevcut Profil Fotoğrafınız</h5>
+                <div class="d-flex justify-content-center mt-3">
+                {% if user.profilepicture %}
+                    <img class="updateuserimage" src="{{ user.profilepicture.url }}">
+                {% else %}
+                    <img class="updateuserimage" src="{% static 'images/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg' %}">
+                {% endif %}
                 </div>
             </div>
             <div class="row createuserimagerow">
@@ -87,11 +102,15 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Biyografi</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="biography"></textarea>
+                        {% if form.biography.value == None %}
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="biography"></textarea>
+                        {% else %}
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="biography">{{ form.biography.value }}</textarea>
+                        {% endif %}
                     </div>
                     
                     <div class="d-flex justify-content-center mt-3">
-                        <button class="btn btn-success createuserbutton">Kullanıcı Hesabı Oluştur</button>
+                        <button class="btn btn-success createuserbutton">Bilgileri Güncelle</button>
                     </div>
                 </div>
             </div>
@@ -125,6 +144,5 @@
         });
     });
     </script>
-    
 </body>
 </html>

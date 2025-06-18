@@ -301,3 +301,10 @@ th {
 .createuserbutton {
     margin-top: 25px !important;
 }
+
+.updateuserimage {
+    width: 250px;
+    height: 250px;
+    border-radius: 250px;
+    border: 1px solid #000000;
+}

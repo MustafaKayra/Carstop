@@ -30,7 +30,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=30,null=False,blank=False,verbose_name="İsim")
     last_name = models.CharField(max_length=30,null=False,blank=False,verbose_name="Soyisi")
     date = models.DateField(auto_now_add=True,verbose_name="Kullanıcı Oluşturulma Tarihi")
-    profilepicture = models.ImageField(upload_to="media/profilepicture",null=True,blank=True,verbose_name="Profil Fotoğrafı")
+    profilepicture = models.ImageField(upload_to="profilepicture/",null=True,blank=True,verbose_name="Profil Fotoğrafı")
     biography = models.TextField(null=True,blank=True)
     gsmnumber = models.IntegerField(max_length=12,null=True,blank=False)
     is_active = models.BooleanField(default=True,verbose_name="Kullanıcı Aktiflik Durumu")
