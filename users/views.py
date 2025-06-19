@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login,authenticate,logout
 from .forms import UserForm
 from .models import CustomUser
+from shop.models import CarSaleAd
 
 def createuser(request):
     if request.method == "POST":
@@ -51,3 +52,15 @@ def updateuser(request):
     else:
         form = UserForm(instance=user)
     return render(request,"updateuser.html",{"form": form, "user": user})
+
+
+
+def detailuser(request, id):
+    user = CustomUser.objects.get(id=id)
+    usergetad = CarSaleAd.objects.filter(advertiser=user)
+    
+    context = {
+        "user": user,
+        "usergetad": usergetad
+    }
+    return render(request,"detailuser.html",context)

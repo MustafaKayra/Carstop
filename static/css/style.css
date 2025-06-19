@@ -308,3 +308,27 @@ th {
     border-radius: 250px;
     border: 1px solid #000000;
 }
+
+.detailuserpage {
+    margin-top: 120px !important;
+    margin-bottom: 120px !important;
+    text-align: center;
+}
+
+.detailuserbiography {
+    margin-top: 120px !important;
+    margin-bottom: 120px !important;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding-top: 10px;
+    text-align: center;
+    height: 397px;
+    width: 1000px;
+}
+
+.detailusercardtext {
+    color: #7e7e7e;
+    font-size: 15px;
+}
