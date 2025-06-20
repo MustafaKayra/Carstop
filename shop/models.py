@@ -53,6 +53,7 @@ class CarSaleAd(models.Model):
     targetime = models.DateTimeField(null=False,blank=False)
     adescription = models.TextField() #İlan açıklaması
     advertiser = models.ForeignKey(settings.AUTH_USER_MODEL,null=False,blank=False,on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
     slug = models.SlugField(null=True,blank=True,unique=True,db_index=True)
 
     class Meta:
@@ -113,3 +114,18 @@ class Images(models.Model):
     class Meta:
         verbose_name = "Araç İlan Resmi"
         verbose_name_plural = "Araç İlan Resimleri"
+
+
+
+class Bid(models.Model):
+    ad = models.ForeignKey(CarSaleAd, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    amount = models.IntegerField(null=False,blank=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Fiyat Teklifi"
+        verbose_name_plural = "Fiyat Teklifleri"
+
+    def __str__(self):
+        return f"{self.user.email} - {self.amount} TL"

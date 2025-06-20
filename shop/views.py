@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import CarSaleAd, Damage, CarBrand, CarModel, Images
+from .models import CarSaleAd, Damage, CarBrand, CarModel, Images, Bid
 from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm, CarBrandForm, CarModelBrandForm
 from django.core.exceptions import ValidationError
 from .utils import get_countdown_data
@@ -190,6 +190,8 @@ def adetail(request,slug):
         if int(newprice) > ad.startingprice:
             ad.startingprice = newprice
             ad.save()
+
+            Bid.objects.create(ad=ad, user=request.user, amount=newprice)
             print("İlan Fiyatı Güncellendi")
         else:
             print("Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
