@@ -219,14 +219,22 @@
                         <tr>
                             <th scope="col">Hasarlı Parça</th>
                             <th scope="col">Hasar</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for part in damagedpart %}
+                    <form method="post">
+                    {% csrf_token %}
                         <tr>
                             <td>{{ part.get_name_display }}</td>
                             <td>{{ part.get_damagetype_display }}</td>
+                            <td>
+                                <input type="hidden" name="delete_part" value="{{ part.id }}">
+                                <button class="btn btn-danger" type="submit" name="deletepart">Parçayı Sil</button>
+                            </td>
                         </tr>
+                    </form>
                     {% endfor %}
                     </tbody>
                 </table>
@@ -264,9 +272,16 @@
                     <div class="card-group">
                     {% for image in imageobjects %}
                     <div class="col-sm-4 mb-4 px-2">
-                        <div class="ratio-box">
-                            <img class="ratio-img" src="{{ image.image.url }}" alt="Card image cap">
+                        <div class="ratio-box addedimagesbox">
+                            <img class="ratio-img addedimages" src="{{ image.image.url }}" alt="Card image cap">
                         </div>
+                        <form method="post">
+                        {% csrf_token %}
+                            <div class="deleteimage">
+                                <input type="hidden" name="delete_image" value="{{ image.id }}">
+                                <button class="deleteimagebutton" name="deleteimage">Resimi Sil</button>
+                            </div>
+                        </form>
                     </div>
                     {% endfor %}
                     </div>

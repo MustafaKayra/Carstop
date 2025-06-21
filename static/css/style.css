@@ -332,3 +332,23 @@ th {
     color: #7e7e7e;
     font-size: 15px;
 }
+
+
+
+.deleteimagebutton {
+    height: 50px;
+    width: 415px;
+    border: 0px;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.addedimages {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.addedimagesbox {
+    border-bottom-left-radius:0 !important;
+    border-bottom-right-radius:0 !important;
+}

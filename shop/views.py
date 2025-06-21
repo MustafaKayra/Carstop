@@ -3,9 +3,11 @@ from .models import CarSaleAd, Damage, CarBrand, CarModel, Images, Bid
 from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm, CarBrandForm, CarModelBrandForm
 from django.core.exceptions import ValidationError
 from .utils import get_countdown_data
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def index(request):
-    ads = CarSaleAd.objects.all()
+    ads = CarSaleAd.objects.filter(is_active=True)
     context = {
         "ads": ads
     }
@@ -97,14 +99,14 @@ def adpost(request):
                 adobject = CarSaleAd.objects.get(id=adobject_id)
 
                 damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
-                damagedpart = Damage.objects.filter(ad=adobject)
 
                 filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
                 if filterdamagedpart.count() > 1:
+                    filterdamagedpart.delete()
                     raise ValidationError("Parça Çakışması")
                 
-                
 
+                damagedpart = Damage.objects.filter(ad=adobject)
                 step = 4
                 print(damage)
             else:
@@ -114,7 +116,19 @@ def adpost(request):
             step = 5
             print(step)
             print("Step Değeri Güncellendi")
-                
+
+
+
+        elif "deletepart" in request.POST:
+            part_id = request.POST.get("delete_part")
+            adobject_id = request.session.get("adobject_id")
+            adobject = CarSaleAd.objects.get(id=adobject_id)
+            part = Damage.objects.get(id=part_id, ad=adobject)
+            part.delete()
+            damagedpart = Damage.objects.filter(ad=adobject)
+            step = 4
+            print("Parça Başarıyla Silindi")
+
             
 
         elif request.method == "POST" and request.FILES.get("image"):
@@ -133,6 +147,19 @@ def adpost(request):
                 step = 5
             else:
                 print(form4.errors)
+
+
+
+        elif "deleteimage" in request.POST:
+            image_id = request.POST.get("delete_image")
+            adobject_id = request.session.get("adobject_id")
+            adobject = CarSaleAd.objects.get(id=adobject_id)
+            images = Images.objects.get(id=image_id, ad=adobject_id)
+            images.delete()
+            imageobjects = Images.objects.filter(ad=adobject)
+            step = 5
+            print("Resim Silindi")
+
 
         
                 
@@ -177,7 +204,7 @@ def adpost(request):
 
 
 def adetail(request,slug):
-    ad = CarSaleAd.objects.get(slug=slug)
+    ad = CarSaleAd.objects.get(slug=slug,is_active=True)
     countdown = get_countdown_data(ad)
 
     images = ad.images_set.all()  # Bu ilanla ilişkili tüm resimleri al
@@ -196,8 +223,6 @@ def adetail(request,slug):
         else:
             print("Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
 
-    
-
     context = {
         "ad": ad,
         "images": images,
@@ -205,4 +230,4 @@ def adetail(request,slug):
         "countdown": countdown
     }
     return render(request,"adetail.html",context)
-        
+    
