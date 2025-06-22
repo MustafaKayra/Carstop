@@ -14,5 +14,6 @@ urlpatterns = [
     path('createuser/',users_views.createuser,name="createuser"),
     path('loginuser/',users_views.loginuser,name="loginuser"),
     path('updateuser/',users_views.updateuser,name="updateuser"),
-    path('detailuser/<int:id>',users_views.detailuser,name="detailuser")
+    path('detailuser/<int:id>',users_views.detailuser,name="detailuser"),
+    path('updatead/<slug:slug>',views.updatead,name="updatead")
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

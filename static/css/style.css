@@ -333,8 +333,6 @@ th {
     font-size: 15px;
 }
 
-
-
 .deleteimagebutton {
     height: 50px;
     width: 415px;
@@ -343,12 +341,24 @@ th {
     border-bottom-right-radius: 10px !important;
 }
 
-.addedimages {
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+.carditemdetail {
+    border: 0px !important;
+    padding: 110px;
+    margin-top: 90px;
 }
 
-.addedimagesbox {
+.buttonitemdetail {
+    border-radius: 20px;
     border-bottom-left-radius:0 !important;
     border-bottom-right-radius:0 !important;
+    border-bottom: 0px;
+    width: 400px !important;
+}
+
+.updateadbutton {
+    height: 50px;
+    width: 400px;
+    border: 2px solid #000000;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
 }

@@ -61,10 +61,19 @@
                             {% else %}
                                 
                             {% endif %}
+
+
                             {% if user.email %}
                                 <p class="card-text detailusercardtext">Email: {{ user.email }}</p>
                             {% else %}
                                 
+                            {% endif %}
+
+
+                            {% if request.user == user %}
+                                <a href="{% url 'updateuser' %}"><button class="btn btn-success" type="submit">Bilgileri Düzenle</button></a>           
+                            {% else %}
+
                             {% endif %}
                         </div>
                     </div>
@@ -88,8 +97,8 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for ad in usergetad %}
         <div class="col">
-            <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
-                <button class="buttonitem" type="submit">
+            <div class="card h-100 carditemdetail" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                <button class="buttonitemdetail" type="submit">
                     <img class="cardimage" src="{{ ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ ad.adname }}</h5>
@@ -101,6 +110,9 @@
                         <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
                     </ul>
                 </button>
+                <div class="deleteimage">
+                    <a href="{% url 'updatead' ad.slug %}"><button class="updateadbutton" name="updateadbutton">İlanı Düzenle</button></a>
+                </div>
             </div>
         </div>
         {% endfor %}

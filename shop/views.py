@@ -230,4 +230,151 @@ def adetail(request,slug):
         "countdown": countdown
     }
     return render(request,"adetail.html",context)
+
+
+
+def updatead(request, slug):
+
+    partsname = Damage.DAMAGE_PARTS_NAME_CHOICES
+    damagedparts = Damage.DAMAGE_PARTS_TYPE_CHOICES
+    adobjectcontext = request.session.get('adobject_id')
+
+    if adobjectcontext is None:
+        adobjectcontext = None
+    else:
+        adobject = CarSaleAd.objects.get(id=adobjectcontext)
+        print(f"GET İSTEĞİ: {adobject}")
     
+    form2 = DamageForm()
+    form4 = ImagesForm()
+    form3 = CarSaleAdForm()
+    damagedpart = Damage.objects.filter(ad=adobject)
+    imageobjects = Images.objects.filter(ad=adobject)
+    step = 3
+
+
+    ad = CarSaleAd.objects.get(slug=slug)
+
+    if request.method == "POST":
+        
+        if "form3" in request.POST:
+            form3 = CarSaleAdForm(request.POST, instance=ad)
+            if form3.is_valid():
+                newad = form3.save(commit=False)
+                newad.advertiser = request.user
+                newad.save()
+
+                request.session['adobject_id'] = newad.id
+                print("İlan Güncellendi")
+                step = 4
+            else:
+                print(form3.errors)
+
+        
+        elif "form2" in request.POST:
+            form2 = DamageForm(request.POST, instance=ad)
+            if form2.is_valid():
+                name = form2.cleaned_data.get("name")
+                damagetype = form2.cleaned_data.get("damagetype")
+                adobject_id = request.session.get("adobject_id")
+                adobject = CarSaleAd.objects.get(id=adobject_id)
+
+                damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
+
+                filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
+                if filterdamagedpart.count() > 1:
+                    filterdamagedpart.delete()
+                    raise ValidationError("Parça Çakışması")
+                
+
+                damagedpart = Damage.objects.filter(ad=adobject)
+                step = 4
+                print(damage)
+            else:
+                print(form2.errors)
+
+        elif "step5" in request.POST:
+            step = 5
+            print(step)
+            print("Step Değeri Güncellendi")
+
+
+
+        elif "deletepart" in request.POST:
+            part_id = request.POST.get("delete_part")
+            adobject_id = request.session.get("adobject_id")
+            adobject = CarSaleAd.objects.get(id=adobject_id)
+            part = Damage.objects.get(id=part_id, ad=adobject)
+            part.delete()
+            damagedpart = Damage.objects.filter(ad=adobject)
+            step = 4
+            print("Parça Başarıyla Silindi")
+
+            
+
+        elif request.method == "POST" and request.FILES.get("image"):
+            form4 = ImagesForm(request.POST, request.FILES)
+            imageobjects = Images.objects.filter(ad=adobject)
+            if form4.is_valid():
+                image = form4.save(commit=False)
+                adobject_id = request.session.get('adobject_id')
+                adobject = CarSaleAd.objects.get(id=adobject_id)
+                image.ad = adobject
+                image.save()
+                print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
+                print("Resim Kaydedildi")
+
+                imageobjects = Images.objects.filter(ad=adobject)
+
+                step = 5
+            else:
+                print(form4.errors)
+
+
+
+        elif "deleteimage" in request.POST:
+            image_id = request.POST.get("delete_image")
+            adobject_id = request.session.get("adobject_id")
+            adobject = CarSaleAd.objects.get(id=adobject_id)
+            images = Images.objects.get(id=image_id, ad=adobject_id)
+            images.delete()
+            imageobjects = Images.objects.filter(ad=adobject)
+            step = 5
+            print("Resim Silindi")
+
+
+        
+                
+        elif "step6" in request.POST:
+            return redirect('index')
+        
+
+
+        context = {
+            'form2': form2,
+            'form4': form4,
+            'form3': form3,
+            'step': step,
+            'partsname': partsname,
+            'damagedparts': damagedparts,
+            'adobjectcontext': adobjectcontext,
+            'damagedpart': damagedpart,
+            'imageobjects': imageobjects,
+            "ad": ad
+        }
+        return render(request,"adpost.html",context)
+    
+    else:
+        context = {
+            'form2': form2,
+            'form4': form4,
+            'form3': form3,
+            'step': step,
+            'partsname': partsname,
+            'damagedparts': damagedparts,
+            'adobjectcontext': adobjectcontext,
+            'damagedpart': damagedpart,
+            'imageobjects': imageobjects,
+            "ad": ad
+        }
+    return render(request,"updatead.html", context)

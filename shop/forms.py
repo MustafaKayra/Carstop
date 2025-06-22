@@ -28,6 +28,15 @@ class DamageForm(forms.ModelForm):
         fields = ['name','damagetype']
 
 
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            if self.instance and self.instance.pk:
+                # Güncelleme formuysa bazı alanları zorunlu yapma
+                self.fields['name'].required = False
+                self.fields['damagetype'].required = False
+
+
 
 class CarSaleAdForm(forms.ModelForm):
     class Meta:
@@ -35,8 +44,29 @@ class CarSaleAdForm(forms.ModelForm):
         fields = ['adname','startingprice','tramer','numberplate','targetime','adescription']
 
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            # Güncelleme formuysa bazı alanları zorunlu yapma
+            self.fields['adname'].required = False
+            self.fields['startingprice'].required = False
+            self.fields['tramer'].required = False
+            self.fields['numberplate'].required = False
+            self.fields['targetime'].required = False
+            self.fields['adescription'].required = False
+
+
 
 class ImagesForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ['image']
+
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            if self.instance and self.instance.pk:
+                # Güncelleme formuysa bazı alanları zorunlu yapma
+                self.fields['image'].required = False
