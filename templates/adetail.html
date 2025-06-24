@@ -192,10 +192,23 @@
             <div class="col-6">
                 <div class="detailuser">
                     <div class="card detailusercard">
-                        <img src="{% static 'images/top-1509626747.jpg' %}" class="detailuserimage" alt="...">
+                        <img src="{{ ad.advertiser.profilepicture.url }}" class="detailuserimage" alt="...">
+                        <h2 class="text-center">{{ ad.advertiser.first_name }} {{ ad.advertiser.last_name }}</h2>
                         <hr>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                            <p class="card-text text-center detailusercardtext">{{ ad.advertiser.date }} Tarihinde Katıldı</p>
+                            {% if ad.advertiser.gsmnumber %}
+                                <p class="card-text text-center detailusercardtext">Telefon Numarası: +90 {{ ad.advertiser.gsmnumber }}</p>
+                            {% else %}
+                                
+                            {% endif %}
+
+
+                            {% if ad.advertiser.email %}
+                                <p class="card-text text-center detailusercardtext">Email: {{ ad.advertiser.email }}</p>
+                            {% else %}
+                                
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from .models import CarSaleAd, Damage, CarBrand, CarModel, Images, Bid
 from .forms import CarModelForm, DamageForm, CarSaleAdForm, ImagesForm, CarBrandForm, CarModelBrandForm
 from django.core.exceptions import ValidationError
-from .utils import get_countdown_data
+from .utils import get_countdown_data, email_send_data
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
+from django.conf import settings
 
 def index(request):
     ads = CarSaleAd.objects.filter(is_active=True)
@@ -206,6 +208,7 @@ def adpost(request):
 def adetail(request,slug):
     ad = CarSaleAd.objects.get(slug=slug,is_active=True)
     countdown = get_countdown_data(ad)
+    email_send = email_send_data(ad)
 
     images = ad.images_set.all()  # Bu ilanla ilişkili tüm resimleri al
 
@@ -215,11 +218,31 @@ def adetail(request,slug):
     if request.method == "POST":
         newprice = request.POST.get("price")
         if int(newprice) > ad.startingprice:
-            ad.startingprice = newprice
-            ad.save()
+            if request.user == ad.advertiser:
+                print("Kullanıcı Kendi İlanına Fiyat Teklifi Yapamaz")
+                return redirect('index')
+            else:
+                ad.startingprice = newprice
+                ad.save()
 
-            Bid.objects.create(ad=ad, user=request.user, amount=newprice)
-            print("İlan Fiyatı Güncellendi")
+                Bid.objects.create(ad=ad, user=request.user, amount=newprice)
+                send_mail(
+                    subject="İlanınıza Yeni Bir Teklif Geldi!",
+                    message=f"""{ad.adname} İlanınıza {newprice} değerinde yeni bir teklif geldi
+                    
+                    İLAN DETAYLARI:
+                    İlan İsmi: {ad.adname}
+                    İlan Bitiş Tarihi: {ad.targetime}
+                    İlan Güncel Fiyatı: {ad.startingprice}
+                    Araç Plakası: {ad.numberplate}
+                    Araç Model: {ad.model}
+
+                    """,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[ad.advertiser.email],
+                    fail_silently=False,
+                )
+                print("İlan Fiyatı Güncellendi")
         else:
             print("Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
 
@@ -227,14 +250,15 @@ def adetail(request,slug):
         "ad": ad,
         "images": images,
         "damagedparts": damagedparts,
-        "countdown": countdown
+        "countdown": countdown,
+        "email_send": email_send
     }
     return render(request,"adetail.html",context)
 
 
 
 def updatead(request, slug):
-
+    ad = CarSaleAd.objects.get(slug=slug)
     partsname = Damage.DAMAGE_PARTS_NAME_CHOICES
     damagedparts = Damage.DAMAGE_PARTS_TYPE_CHOICES
     adobjectcontext = request.session.get('adobject_id')
@@ -248,21 +272,27 @@ def updatead(request, slug):
     form2 = DamageForm()
     form4 = ImagesForm()
     form3 = CarSaleAdForm()
-    damagedpart = Damage.objects.filter(ad=adobject)
-    imageobjects = Images.objects.filter(ad=adobject)
+    damagedpart = Damage.objects.filter(ad=ad)
+    imageobjects = Images.objects.filter(ad=ad)
     step = 3
-
-
-    ad = CarSaleAd.objects.get(slug=slug)
 
     if request.method == "POST":
         
         if "form3" in request.POST:
             form3 = CarSaleAdForm(request.POST, instance=ad)
+            request.session['adobject_startingprice'] = ad.startingprice
+            ad_startingprice = request.session.get("adobject_startingprice")
             if form3.is_valid():
                 newad = form3.save(commit=False)
-                newad.advertiser = request.user
-                newad.save()
+                bid = Bid.objects.filter(ad=ad)
+                if bid:
+                    newad.startingprice = ad_startingprice
+                    print("Fiyat Teklifi Verilen Bir İlan Fiyatı Güncellenemez")
+                    newad.advertiser = request.user
+                    newad.save()
+                else:
+                    newad.advertiser = request.user
+                    newad.save()
 
                 request.session['adobject_id'] = newad.id
                 print("İlan Güncellendi")
