@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carstop | Kullanıcı Oluştur</title>
+    <title>Carstop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
@@ -14,6 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
+
 
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -42,68 +43,38 @@
 
 
     <div class="container">
-        <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label class="invisible"></label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Adresiniz" name="email">
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="input-group createusergsm">
-                        <label class="invisible"></label>
-                        <span class="input-group-text">+90</span>
-                        <input type="number" name="gsmnumber" class="form-control" placeholder="Telefon Numaranız">
-                    </div>
-                </div>
-            </div>
-            <div class="row createusernamerow">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">İsim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="İsminiz" name="first_name">
-                    </div>
-                </div>
-                
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Soy isim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Soy isminiz" name="last_name">
-                    </div>
-                </div>
-            </div>
-            <div class="row createuserpasswordrow">
-                <div class="col-12">
-                    <label for="exampleInputEmail1">Şifre</label>
-                    <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Şifreniz" name="password">
-                </div>
-            </div>
-            <div class="row createuserimagerow">
-                <div class="col-12">
-                    <div class="custom-file createuserprofilepicture" onclick="document.getElementById('formFile').click();">
-                        <h5>Profil Fotoğrafınızı Bu Alana Tıklayarak Seçiniz</h5>
-                        <input type="file" id="formFile" style="display: none;" name="profilepicture">
-                    </div>
-                </div>
-            </div>
-            <div class="row createuserbiographyrow">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Biyografi</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="biography"></textarea>
-                    </div>
-                    
-                    <div class="d-flex justify-content-center mt-3">
-                        <button class="btn btn-success createuserbutton">Kullanıcı Hesabı Oluştur</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+        <div class="row">
+            <h1 class="text-center">Fiyat Teklifleriniz</h1>
+        </div>
     </div>
 
+            <div class="col-6 bidobjects">
+                {% for bid in bid_objects %}
+                <div class="col d-flex justify-content-center">
+                    <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' bid.ad.slug %}'">
+                        <button class="bidbuttonitem" type="submit">
+                            <div class="d-flex align-items-center">
+                                <img class="cardimage" src="{{ bid.ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
+                                <div class="bidprice">
+                                    <h2 class="ms-3 bidpriceamount">Mevcut Fiyat Teklifiniz</h5>
+                                    <h5>{{ bid.amount }} TL</h5>
+                                </div>
+                                <div class="bidprice">
+                                    <h2 class="ms-3 bidpriceamount">İlan İçin En Yüksek Teklif</h5>
+                                    <h5>{{ bid.ad.startingprice }} TL</h5>
+                                </div>
+                            </div>
+          
+                            <div class="card-body">
+                                <h5 class="bidcardtitle">{{ bid.ad.adname }}</h5>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+    
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

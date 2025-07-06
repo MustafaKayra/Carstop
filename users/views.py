@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login,authenticate,logout
 from .forms import UserForm
 from .models import CustomUser
-from shop.models import CarSaleAd
+from shop.models import CarSaleAd, Bid
 
 def createuser(request):
     if request.method == "POST":
@@ -64,3 +64,16 @@ def detailuser(request, id):
         "usergetad": usergetad
     }
     return render(request,"detailuser.html",context)
+
+
+
+def bids(request):
+    ads = CarSaleAd.objects.filter(bid__user=request.user).distinct()
+    bid_objects = Bid.objects.filter(user=request.user, ad__in=ads)
+    
+
+    context = {
+        "bid_objects": bid_objects,
+        "ads": ads
+    }
+    return render(request,"bids.html",context)

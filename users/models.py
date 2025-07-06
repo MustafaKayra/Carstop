@@ -38,6 +38,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False,verbose_name="Kullanıcı Yönetici Yetkisi")
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["first_name","last_name","password"]
+    REQUIRED_FIELDS = ["first_name","last_name"]
 
     objects = CustomUserManager()

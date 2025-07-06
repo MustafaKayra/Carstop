@@ -298,6 +298,10 @@ th {
     padding-top: 40px;
 }
 
+.createuserpasswordrow {
+    padding-top: 40px;
+}
+
 .createuserbutton {
     margin-top: 25px !important;
 }
@@ -361,4 +365,39 @@ th {
     border: 2px solid #000000;
     border-bottom-left-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
+}
+
+.updateadbuttondisabled {
+    height: 50px;
+    width: 400px;
+    border: 2px solid rgba(118, 118, 118, 0.3);
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.adinformation {
+    color: rgba(118, 118, 118, 0.3);
+}
+
+.bidbuttonitem {
+    border-radius: 20px;
+    width: 900px !important;
+}
+
+.bidcardimage {
+    border-radius: 20px;
+    padding-top: 10px;
+    margin-right: 450px !important;
+}
+
+.bidcardtitle {
+    margin-right: 550px !important;
+}
+
+.bidprice {
+    margin-left: 30px;
+}
+
+.bidobjects {
+    margin-left: 380px !important;
 }

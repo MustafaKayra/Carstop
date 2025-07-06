@@ -2,9 +2,21 @@ from django import forms
 from .models import CustomUser
 
 class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput, required=False)  # Bunu ekle
+
     class Meta:
         model = CustomUser
-        fields = ['email','first_name','last_name','profilepicture','biography','gsmnumber']
+        fields = ['email','first_name','last_name','profilepicture','biography','gsmnumber','password']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get('password')
+        if password:
+            user.set_password(password)
+        if commit:
+            user.save()
+        return user
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,3 +29,4 @@ class UserForm(forms.ModelForm):
             self.fields['profilepicture'].required = False
             self.fields['biography'].required = False
             self.fields['gsmnumber'].required = False
+            self.fields['password'].required = False
