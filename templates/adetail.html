@@ -45,36 +45,27 @@
         <div class="row">
             <div class="col-md-6">
                 <div id="carouselExampleIndicators" class="carousel slide col-6 carouselslide" data-bs-ride="carousel">
-                
-                <!-- Göstergeler (nokta) -->
-                <div class="carousel-indicators">
-                    {% for image in images %}
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}"
-                        class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}">
-                    </button>
-                    {% endfor %}
-                </div>
 
-                <!-- Görseller -->
-                <div class="carousel-inner carouselinner">
-                    {% for image in images %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %} carouselitem">
-                        <img src="{{ image.image.url }}" class="d-block carouselimage" alt="...">
+                    <!-- Görseller -->
+                    <div class="carousel-inner carouselinner">
+                        {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %} carouselitem">
+                            <img src="{{ image.image.url }}" class="d-block carouselimage" alt="...">
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
-                <div class="image-footer">
-                    <h1 class="text-center detailadname">{{ ad.adname }}</h1>
-                </div>
-                <!-- Önceki / Sonraki düğmeleri -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                    <div class="detailimagefooter">
+                        <h1 class="text-center detailadname">{{ ad.adname }}</h1>
+                    </div>
+                    <!-- Önceki / Sonraki düğmeleri -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
 
                 </div>
             </div>
@@ -158,10 +149,10 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
             {% if damagedparts %}
                 <div class="detaildamage">
-                    <h2 class="detaildamagetitle">Hasarlı Parçalar</h2>
+                    <h2 class="detaildamagetitle text-center">Hasarlı Parçalar</h2>
                     <table class="table table-striped detaildamagetable">
                     <tbody>
                     {% for part in damagedparts %}
@@ -175,7 +166,7 @@
                 </div>
             {% else %}
                 <div class="detaildamage">
-                    <h2 class="detaildamagetitle">Hasarlı Parça Belirtilmedi</h2>
+                    <h2 class="detaildamagetitle text-center">Hasarlı Parça Belirtilmedi</h2>
                     <table class="table table-striped detaildamagetable">
                     <tbody>
                     {% for part in damagedparts %}
@@ -189,7 +180,7 @@
                 </div>
             {% endif %}
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="detailuser">
                     <div class="card detailusercard">
                         <img src="{{ ad.advertiser.profilepicture.url }}" class="detailuserimage" alt="...">

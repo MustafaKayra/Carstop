@@ -45,7 +45,7 @@
 
         {% if step == 3 %}
 
-            <h1 class="text-center adformtitle">Araba İlanı Oluştur</h1>
+            <h1 class="text-center adformtitle">Araba İlanını Güncelle</h1>
 
             <div class="container">
                 <form method="post">
@@ -53,17 +53,26 @@
                     <div class="row adform">
                         <input type="text" name="adname" class="form-control" id="adname" placeholder="İlan Başlığı" value="{{ ad.adname }}">
 
-                        <div class="input-group adforminteger">
-                            <label class="invisible"></label>
-                            <input type="number" name="startingprice" class="form-control col-md-3 offset-md-1" placeholder="Başlangıç Fiyatı" value="{{ ad.startingprice }}">
-                            <span class="input-group-text">TL</span>
+                        <div class="row adforminteger">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="number" name="startingprice" class="form-control" placeholder="Başlangıç Fiyatı" value="{{ ad.startingprice }}">
+                                    <span class="input-group-text">TL</span>
+                                </div>
+                            </div>
 
-                            <label class="invisible">111</label>
-                            <input type="number" name="tramer" class="form-control col-md-3 offset-md-1" placeholder="Tramer Kaydı(zorunlu değil)" value="{{ ad.tramer }}">
-                            <span class="input-group-text">TL</span>
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="number" name="tramer" class="form-control" placeholder="Tramer Kaydı (zorunlu değil)" value="{{ ad.tramer }}">
+                                    <span class="input-group-text">TL</span>
+                                </div>
+                            </div>
 
-                            <label class="invisible">111</label>
-                            <input type="text" name="numberplate" class="form-control col-md-3 offset-md-1" placeholder="Plaka(zorunlu değil)" value="{{ ad.numberplate }}">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="text" name="numberplate" class="form-control" placeholder="Plaka (zorunlu değil)" value="{{ ad.numberplate }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -51,10 +51,10 @@
             <div class="col-6 bidobjects">
                 {% for bid in bid_objects %}
                 <div class="col d-flex justify-content-center">
-                    <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' bid.ad.slug %}'">
+                    <div class="card h-100 bidcarditem" onclick="window.location.href='{% url 'adetail' bid.ad.slug %}'">
                         <button class="bidbuttonitem" type="submit">
                             <div class="d-flex align-items-center">
-                                <img class="cardimage" src="{{ bid.ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
+                                <img class="bidscardimage" src="{{ bid.ad.images_set.first.image.url }}" alt="...">
                                 <div class="bidprice">
                                     <h2 class="ms-3 bidpriceamount">Mevcut Fiyat Teklifiniz</h5>
                                     <h5>{{ bid.amount }} TL</h5>

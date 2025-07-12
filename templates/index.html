@@ -40,13 +40,13 @@
         </div>
     </nav>
 
-        
+        <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for ad in ads %}
                 <div class="col">
                     <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
-                        <button class="buttonitem" type="submit">
-                            <img class="cardimage" src="{{ ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
+                        <button class="adformbuttonitem" type="submit">
+                            <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ ad.adname }}</h5>
                             </div>
@@ -61,6 +61,7 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
         
         
 

@@ -44,7 +44,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <div class="detailuserpage">
                     <div class="card detailusercard">
                         {% if user.profilepicture %}
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-12 col-md-8">
                 <div class="detailuserbiography">
                 {% if user.biography %}
                     <p>{{ user.biography }}</p>
@@ -95,52 +95,53 @@
 
     {% if usergetad %}
     <h2 class="text-center">Kullanıcının Diğer İlanları</h2>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        {% for ad in usergetad %}
-            {% if ad.is_active %}
-                <div class="col">
-                    <div class="card h-100 carditemdetail" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
-                        <button class="buttonitemdetail" type="submit">
-                            <img class="cardimage" src="{{ ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ ad.adname }}</h5>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for ad in usergetad %}
+                {% if ad.is_active %}
+                    <div class="col">
+                        <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                            <button class="userdetailbuttonitem" type="submit">
+                                <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ ad.adname }}</h5>
+                                </div>
+                                <ul class="list-group list-group-flush modelinfo">
+                                    <li class="list-group-item">{{ ad.startingprice }} TL</li>
+                                    <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
+                                    <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
+                                    <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
+                                </ul>
+                            </button>
+                            <div class="deleteimage">
+                                <a href="{% url 'updatead' ad.slug %}"><button class="updateadbutton" name="updateadbutton">İlanı Düzenle</button></a>
                             </div>
-                            <ul class="list-group list-group-flush modelinfo">
-                                <li class="list-group-item">{{ ad.startingprice }} TL</li>
-                                <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
-                                <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
-                                <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
-                            </ul>
-                        </button>
-                        <div class="deleteimage">
-                            <a href="{% url 'updatead' ad.slug %}"><button class="updateadbutton" name="updateadbutton">İlanı Düzenle</button></a>
                         </div>
                     </div>
-                </div>
-            {% else %}
-                <div class="col">
-                    <div class="card h-100 carditemdetail" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
-                        <button class="buttonitemdetail" type="submit" disabled>
-                            <img class="cardimage" src="{{ ad.images_set.first.image.url }}" height="250px" width="370px" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ ad.adname }}</h5>
+                {% else %}
+                    <div class="col">
+                        <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                            <button class="userdetailbuttonitem" type="submit" disabled>
+                                <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ ad.adname }}</h5>
+                                </div>
+                                <ul class="list-group list-group-flush modelinfo" disabled>
+                                    <li class="list-group-item adinformation">Satıldığı Fiyat: {{ ad.startingprice }} TL</li>
+                                    <li class="list-group-item adinformation">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
+                                    <li class="list-group-item adinformation">{{ ad.targetime }} Tarihli</li>
+                                    <li class="list-group-item adinformation">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
+                                </ul>
+                            </button>
+                            <div class="deleteimage">
+                                <a href="{% url 'updatead' ad.slug %}"><button class="updateadbuttondisabled" name="updateadbutton" disabled>İlanı Düzenle</button></a>
                             </div>
-                            <ul class="list-group list-group-flush modelinfo" disabled>
-                                <li class="list-group-item adinformation">Satıldığı Fiyat: {{ ad.startingprice }} TL</li>
-                                <li class="list-group-item adinformation">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
-                                <li class="list-group-item adinformation">{{ ad.targetime }} Tarihli</li>
-                                <li class="list-group-item adinformation">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
-                            </ul>
-                        </button>
-                        <div class="deleteimage">
-                            <a href="{% url 'updatead' ad.slug %}"><button class="updateadbuttondisabled" name="updateadbutton" disabled>İlanı Düzenle</button></a>
                         </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
 
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
     {% else %}
         
     {% endif %}

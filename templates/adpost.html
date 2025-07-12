@@ -45,15 +45,15 @@
         <h1 class="text-center">Aracınızı İlana Koyun</h1>
 
 
-
+        <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for car in carbrand %}
                 <div class="col">
                     <form method="post">
                     {% csrf_token %}
                         <div class="card h-100 carditem">
-                        <button class="buttonitem" type="submit" name="form1">
-                            <img src="{{ car.image.url }}" height="250px" alt="...">
+                        <button class="adformbuttonitem" type="submit" name="form1">
+                            <img class="adpostcardimage" src="{{ car.image.url }}" height="250px" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ car.brandname }}</h5>
                             </div>
@@ -64,19 +64,21 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
     
     {% elif step == 2 %}
 
         <h1 class="text-center">Aracın Modelini Seçin</h1>
 
+        <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for model in modelobject %}
                 <div class="col">
                     <form method="post">
                     {% csrf_token %}
                         <div class="card h-100 carditem">
-                        <button class="buttonitem" type="submit" name="form5">
-                            <img class="cardimage" src="{{ model.image.url }}" height="250px" width="370px" alt="...">
+                        <button class="adformbuttonitem" type="submit" name="form5">
+                            <img class="indexcardimage" src="{{ model.image.url }}" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ model.brand }} | {{ model.modelname }}</h5>
                             </div>
@@ -93,6 +95,7 @@
                 </div>
                 {% endfor %}
             </div>
+        </div>
 
         {% elif step == 3 %}
 
@@ -102,19 +105,28 @@
                 <form method="post">
                 {% csrf_token %}
                     <div class="row adform">
-                        <input type="text" name="adname" class="form-control" id="adname" placeholder="İlan Başlığı">
+                        <input type="text" name="adname" class="form-control adformname" id="adname" placeholder="İlan Başlığı">
 
-                        <div class="input-group adforminteger">
-                            <label class="invisible"></label>
-                            <input type="number" name="startingprice" class="form-control col-md-3 offset-md-1" placeholder="Başlangıç Fiyatı">
-                            <span class="input-group-text">TL</span>
+                        <div class="row adforminteger">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="number" name="startingprice" class="form-control" placeholder="Başlangıç Fiyatı">
+                                    <span class="input-group-text">TL</span>
+                                </div>
+                            </div>
 
-                            <label class="invisible">111</label>
-                            <input type="number" name="tramer" class="form-control col-md-3 offset-md-1" placeholder="Tramer Kaydı(zorunlu değil)">
-                            <span class="input-group-text">TL</span>
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="number" name="tramer" class="form-control" placeholder="Tramer Kaydı (zorunlu değil)">
+                                    <span class="input-group-text">TL</span>
+                                </div>
+                            </div>
 
-                            <label class="invisible">111</label>
-                            <input type="text" name="numberplate" class="form-control col-md-3 offset-md-1" placeholder="Plaka(zorunlu değil)">
+                            <div class="col-12 col-md-4 mb-2">
+                                <div class="input-group">
+                                    <input type="text" name="numberplate" class="form-control" placeholder="Plaka (zorunlu değil)">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -145,10 +157,8 @@
                         <div class="adformtextarea">
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="İlan Açıklaması" name="adescription"></textarea>
                         </div>
-                        <button class="btn btn-success" name="form3" type="submit">İlan Oluştur</button>
+                        <button class="btn btn-success adformbutton" name="form3" type="submit">İlan Oluştur</button>
                     </div>
-
-                    
                 </form>
             </div>
 
@@ -180,30 +190,34 @@
                 </div>
                 <form method="post">
                 {% csrf_token %}
-                    <div class="buttonstep5">
-                        <button type="submit" class="btn btn-danger step5button" name="step5" value="5">Diğer Adıma Geçin</button>
-                    </div>
                     <div class="row damageparts">
-                        <select class="form-select" aria-label="Default select example" name="name">
-                        {% for key, value in partsname %}
-                            <option value="{{ key }}">{{ value }}</option>
-                        {% endfor %}
-                        </select> 
+                        <div class="col-12">
+                            <select class="form-select" aria-label="Default select example" name="name">
+                            {% for key, value in partsname %}
+                                <option value="{{ key }}">{{ value }}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
                     </div>  
 
                     <div class="row align-items-center damagebuttons">
                         <input type="radio" class="btn-check" name="damagetype" id="option1" autocomplete="off" value="locally">
-                        <label class="btn btn-primary col-md-3 offset-md-1" for="option1">Lokal Boyalı</label>
+                        <label class="btn btn-primary col-md-3 offset-md-1 damagetypelabel" for="option1">Lokal Boyalı</label>
 
                         <input type="radio" class="btn-check" name="damagetype" id="option2" autocomplete="off" value="painted">
-                        <label class="btn btn-warning col-md-3 offset-md-1" for="option2">Boyalı</label>
+                        <label class="btn btn-warning col-md-3 offset-md-1 damagetypelabel" for="option2">Boyalı</label>
 
                         <input type="radio" class="btn-check" name="damagetype" id="option3" autocomplete="off" value="changing">
-                        <label class="btn btn-danger col-md-3 offset-md-1" for="option3">Değişen</label>
+                        <label class="btn btn-danger col-md-3 offset-md-1 damagetypelabel" for="option3">Değişen</label>
                     </div>
 
                     <div class="row damagesubmitbutton">
-                        <button type="submit" class="btn btn-outline-success col-sm-2" name="form2">Parçayı Ekle</button>
+                        <div class="col-12 text-center adpartbutton">
+                            <button type="submit" class="btn btn-outline-success col-sm-2" name="form2">Parçayı Ekle</button>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-outline-danger step5button" name="step5" value="5">Diğer Adıma Geçin</button>
+                        </div>
                     </div>
                 </form>
 
@@ -252,16 +266,22 @@
                 <div class="row imagerow">
                     <h1 class="text-center imageformtitle">Araç Resimlerini Ekle</h1>
                         <div class="card text-white imageform">
-                        <form method="post" enctype="multipart/form-data" id="imageForm">
-                        {% csrf_token %}
-                            <button class="imageformbutton" type="button" onclick="document.getElementById('formFile').click();">
-                                <div class="card-img-overlay">
-                                    <h5 class="imagecard-title">Bu Alana Tıklayarak Resim Ekleyin</h5>
-                                    <input class="imageformbutton" type="file" id="formFile" style="display: none;" name="image" onchange="document.getElementById('imageForm').submit();">
-                                </div>
-                            </button>
-                        </form>
+                            <form method="post" enctype="multipart/form-data" id="imageForm">
+                            {% csrf_token %}
+                                <button class="imageformbutton" type="button" onclick="document.getElementById('formFile').click();">
+                                    <div class="card-img-overlay">
+                                        <h5 class="imagecard-title">Bu Alana Tıklayarak Resim Ekleyin</h5>
+                                        <input class="imageformbutton" type="file" id="formFile" style="display: none;" name="image" onchange="document.getElementById('imageForm').submit();">
+                                    </div>
+                                </button>
+                            </form>
                         </div>
+                        <form method="post">
+                        {% csrf_token %}
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success step6button" name="step6">Diğer Adıma Geçin</button>
+                            </div>
+                        </form>
                 </div>
             </div>
             <hr>
@@ -270,39 +290,31 @@
                 <div class="row">
                     <h1 class="text-center addedimage">Araç Resimleri</h1>
                     <div class="card-group">
-                    {% for image in imageobjects %}
-                    <div class="col-sm-4 mb-4 px-2">
-                        <div class="ratio-box addedimagesbox">
-                            <img class="ratio-img addedimages" src="{{ image.image.url }}" alt="Card image cap">
-                        </div>
-                        <form method="post">
-                        {% csrf_token %}
-                            <div class="deleteimage">
-                                <input type="hidden" name="delete_image" value="{{ image.id }}">
-                                <button class="deleteimagebutton" name="deleteimage">Resimi Sil</button>
+                        <div class="row">
+                            {% for image in imageobjects %}
+                            <div class="col-12 col-sm-6 col-md-4 d-flex flex-column align-items-center">
+                                <div class="adimagescard">
+                                    <div class="ratio-box addedimagesbox">
+                                        <img class="ratio-img addedimages" src="{{ image.image.url }}" alt="Card image cap">
+                                    </div>
+                                    <form method="post" style="width: 100%;">
+                                    {% csrf_token %}
+                                        <div class="deleteimage">
+                                            <input type="hidden" name="delete_image" value="{{ image.id }}">
+                                            <button class="deleteimagebutton" name="deleteimage">Resimi Sil</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    {% endfor %}
-                    </div>
-                    <form method="post">
-                    {% csrf_token %}
-                        <div style="text-align: center;">
-                            <button class="btn btn-success addedimagebutton" name="step6">İlanı Oluştur</button>
+                            {% endfor %}
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             {% else %}
-                    <form method="post">
-                    {% csrf_token %}
-                        <div style="text-align: center;">
-                            <button class="btn btn-success addedimagebutton" name="step6">İlanı Oluştur</button>
-                        </div>
-                    </form>
+                    
             {% endif %}
             
-    {% else %}
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
