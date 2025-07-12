@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib import messages
+
 
 def index(request):
     ads = CarSaleAd.objects.filter(is_active=True)
@@ -86,10 +88,10 @@ def adpost(request):
 
                 adobject = CarSaleAd.objects.create(adname=adname,startingprice=startingprice,tramer=tramer,numberplate=numberplate,brand=brand,model=modelobjects,targetime=targetime,adescription=adescription,advertiser=advertiser)
                 request.session['adobject_id'] = adobject.id
-                print("İlan Oluşturuldu")
+                messages.success(request,"İlan Oluşturuldu")
                 step = 4
             else:
-                print(form3.errors)
+                messages.warning(request,form3.errors)
 
         
         elif "form2" in request.POST:
@@ -112,7 +114,7 @@ def adpost(request):
                 step = 4
                 print(damage)
             else:
-                print(form2.errors)
+                messages.warning(form2.errors)
 
         elif "step5" in request.POST:
             step = 5
@@ -129,7 +131,7 @@ def adpost(request):
             part.delete()
             damagedpart = Damage.objects.filter(ad=adobject)
             step = 4
-            print("Parça Başarıyla Silindi")
+            messages.success(request,"Parça Silindi")
 
             
 
@@ -141,14 +143,14 @@ def adpost(request):
                 adobject = CarSaleAd.objects.get(id=adobject_id)
                 image.ad = adobject
                 image.save()
-                print("Resim Kaydedildi")
+                messages.success(request,"Resim Kaydedildi")
                 print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
 
                 imageobjects = Images.objects.filter(ad=adobject)
 
                 step = 5
             else:
-                print(form4.errors)
+                messages.warning(request,form4.errors)
 
 
 
@@ -160,7 +162,7 @@ def adpost(request):
             images.delete()
             imageobjects = Images.objects.filter(ad=adobject)
             step = 5
-            print("Resim Silindi")
+            messages.success(request,"Resim Silindi")
 
 
         
@@ -219,8 +221,7 @@ def adetail(request,slug):
         newprice = request.POST.get("price")
         if int(newprice) > ad.startingprice:
             if request.user == ad.advertiser:
-                print("Kullanıcı Kendi İlanına Fiyat Teklifi Yapamaz")
-                return redirect('index')
+                messages.warning(request,"Kullanıcı Kendi İlanına Fiyat Teklifi Yapamaz")
             else:
                 ad.startingprice = newprice
                 ad.save()
@@ -242,9 +243,9 @@ def adetail(request,slug):
                     recipient_list=[ad.advertiser.email],
                     fail_silently=False,
                 )
-                print("İlan Fiyatı Güncellendi")
+                messages.success(request,"İlan Fiyatı Güncellendi")
         else:
-            print("Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
+            messages.warning(request,"Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
 
     context = {
         "ad": ad,
@@ -287,7 +288,7 @@ def updatead(request, slug):
                 bid = Bid.objects.filter(ad=ad)
                 if bid:
                     newad.startingprice = ad_startingprice
-                    print("Fiyat Teklifi Verilen Bir İlan Fiyatı Güncellenemez")
+                    messages.warning(request,"Fiyat Teklifi Verilen Bir İlan Fiyatı Güncellenemez")
                     newad.advertiser = request.user
                     newad.save()
                 else:
@@ -295,10 +296,10 @@ def updatead(request, slug):
                     newad.save()
 
                 request.session['adobject_id'] = newad.id
-                print("İlan Güncellendi")
+                messages.success(request,"İlan Güncellendi")
                 step = 4
             else:
-                print(form3.errors)
+                messages.warning(request,form3.errors)
 
         
         elif "form2" in request.POST:
@@ -321,7 +322,7 @@ def updatead(request, slug):
                 step = 4
                 print(damage)
             else:
-                print(form2.errors)
+                messages.warning(request,form2.errors)
 
         elif "step5" in request.POST:
             step = 5
@@ -338,7 +339,7 @@ def updatead(request, slug):
             part.delete()
             damagedpart = Damage.objects.filter(ad=adobject)
             step = 4
-            print("Parça Başarıyla Silindi")
+            messages.success(request,"Parça Başarıyla Silindi")
 
             
 
@@ -352,13 +353,13 @@ def updatead(request, slug):
                 image.ad = adobject
                 image.save()
                 print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
-                print("Resim Kaydedildi")
+                messages.success(request,"Resim Kaydedildi")
 
                 imageobjects = Images.objects.filter(ad=adobject)
 
                 step = 5
             else:
-                print(form4.errors)
+                messages.warning(request,form4.errors)
 
 
 
@@ -370,7 +371,7 @@ def updatead(request, slug):
             images.delete()
             imageobjects = Images.objects.filter(ad=adobject)
             step = 5
-            print("Resim Silindi")
+            messages.success(request,"Resim Silindi")
 
 
         

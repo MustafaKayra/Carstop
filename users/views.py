@@ -3,6 +3,7 @@ from django.contrib.auth import login,authenticate,logout
 from .forms import UserForm
 from .models import CustomUser
 from shop.models import CarSaleAd, Bid
+from django.contrib import messages
 
 def createuser(request):
     if request.method == "POST":
@@ -13,7 +14,7 @@ def createuser(request):
             print(f"Yeni Kullanıcı: {user}")
             return redirect('index')
         else:
-            print(form.errors)
+            messages.warning(request,form.errors)
     else:
         form = UserForm()
     return render(request,"createuser.html",{"form": form})
@@ -28,10 +29,10 @@ def loginuser(request):
 
         if user:
             login(request, user)
-            print("Kullanıcı Girişi Yapıldı")
+            messages.success(request,"Kullanıcı Girişi Yapıldı")
             return redirect('index')
         else:
-            print("Kullanıcı Bulunamadı")
+            messages.warning(request,"Kullanıcı Bulunamadı")
     return render(request,"loginuser.html")
 
 
@@ -45,10 +46,10 @@ def updateuser(request):
         if form.is_valid():
             newuser = form.save()
             login(request, newuser)
-            print("Değişiklikler Kaydedildi")
+            messages.success(request,"Değişiklikler Kaydedildi")
             return redirect('index')
         else:
-            print(form.errors)
+            messages.warning(request,form.errors)
     else:
         form = UserForm(instance=user)
     return render(request,"updateuser.html",{"form": form, "user": user})
