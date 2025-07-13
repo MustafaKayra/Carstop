@@ -409,3 +409,76 @@ def updatead(request, slug):
             "ad": ad
         }
     return render(request,"updatead.html", context)
+
+
+
+def filterad(request):
+    carbrand = CarBrand.objects.all()
+    modelobject = CarModel.objects.none()
+    ads = CarSaleAd.objects.none()
+    step = 1
+
+    if request.method == "POST":
+        if "form1" in request.POST:
+            brandname = request.POST.get("brandname")
+            brandobject = CarBrand.objects.get(brandname=brandname)
+            request.session['brand_id'] = brandobject.id
+            modelobject = CarModel.objects.filter(brand=brandobject)
+            step = 2
+            print(f"brandname: {brandname}, brandobject: {brandobject}, brand_id: {brandobject.id}")
+        
+
+        elif "form5" in request.POST:
+            modelname = request.POST.get("modelname")
+            model = CarModel.objects.get(modelname=modelname)
+            request.session['model_id'] = model.id
+
+            brand_id = request.session.get("brand_id")
+            brand = CarBrand.objects.get(id=brand_id)
+            ads = CarSaleAd.objects.filter(brand=brand, model=model)
+            step = 3
+
+
+        elif "form6" in request.POST:
+            model_id = request.session.get("model_id")
+            brand_id = request.session.get("brand_id")
+            model = CarModel.objects.get(id=model_id)
+            brand = CarBrand.objects.get(id=brand_id)
+            ads = CarSaleAd.objects.filter(brand=brand, model=model)
+
+            minprice = request.POST.get("minprice")
+            maxprice = request.POST.get("maxprice")
+            mintramer = request.POST.get("mintramer")
+            maxtramer = request.POST.get("maxtramer")
+            targetime = request.POST.get("targetime")
+            print(targetime)
+            step = 3
+
+            if minprice:
+                ads = ads.filter(startingprice__gte=minprice)
+            
+            if maxprice:
+                ads = ads.filter(startingprice__lte=maxprice)
+
+            if mintramer:
+                ads = ads.filter(tramer__gte=mintramer)
+
+            if maxtramer:
+                ads = ads.filter(tramer__lte=maxtramer)
+
+            if targetime:
+                try:
+                    from datetime import datetime
+                    date_obj = datetime.strptime(targetime, '%d/%m/%Y')
+                    ads = ads.filter(targetime__date__lte=date_obj.date())
+                except ValueError:
+                    pass
+
+
+    context = {
+        "carbrand": carbrand,
+        "step": step,
+        "modelobject": modelobject,
+        "ads": ads
+    }
+    return render(request,"filterad.html",context)

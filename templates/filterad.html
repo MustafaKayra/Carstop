@@ -75,11 +75,112 @@
         {% endfor %}
                               
     {% endif %}
-    
 
-        <h1 class="text-center">İlanlar</h1>
-        <div class="text-center filteradbutton">
-            <a href="{% url 'filterad' %}"><button class="btn btn-success">Aradığınız Aracı Bulun</button></a>
+
+    {% if step == 1 %}
+        <div class="text-center filtersubmitbutton">
+            <h1>Aracın Markasını Seçin</h1>
+        </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for car in carbrand %}
+                <div class="col">
+                    <form method="post">
+                    {% csrf_token %}
+                        <div class="card h-100 carditem">
+                        <button class="adformbuttonitem" type="submit" name="form1">
+                            <img class="adpostcardimage" src="{{ car.image.url }}" height="250px" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ car.brandname }}</h5>
+                            </div>
+                            <input type="hidden" name="brandname" value="{{ car.brandname }}">
+                        </button>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% elif step == 2 %}
+
+        <h1 class="text-center">Aracın Modelini Seçin</h1>
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for model in modelobject %}
+                <div class="col">
+                    <form method="post">
+                    {% csrf_token %}
+                        <div class="card h-100 carditem">
+                        <button class="adformbuttonitem" type="submit" name="form5">
+                            <img class="indexcardimage" src="{{ model.image.url }}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ model.brand }} | {{ model.modelname }}</h5>
+                            </div>
+                            <ul class="list-group list-group-flush modelinfo">
+                                <li class="list-group-item">{{ model.modelyear }} Model</li>
+                                <li class="list-group-item">{{ model.fueltype }}</li>
+                                <li class="list-group-item">{{ model.enginesize }} Litre</li>
+                                <li class="list-group-item">{{ model.enginepower }} HP</li>
+                            </ul>
+                            <input type="hidden" name="modelname" value="{{ model.modelname }}">
+                        </button>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    {% elif step == 3 %}
+
+        <h1 class="text-center filtertitle">Aramanıza Uygun İlanlar</h1>
+        <div class="container">
+        <form method="post">
+        {% csrf_token %}
+            <div class="row text-center">
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="minprice" class="form-control filterinput" placeholder="Minimum Fiyat">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="maxprice" class="form-control filterinput" placeholder=" Maksimum Fiyat">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="mintramer" class="form-control filterinput" placeholder="Minimum Tramer">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="maxtramer" class="form-control filterinput" placeholder="Maksimum Tramer">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group date" id="datepicker">
+                            <input type="text" class="form-control" name="targetime" id="date" placeholder="Tarih" />
+                            <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-success filtersubmitbutton" type="submit" name="form6">İlanları Filtrele</button>
+            </div>
+        </form>
         </div>
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -104,6 +205,11 @@
             </div>
         </div>
 
+
+    {% else %}
+    {% endif %}
+
+    
 
         <div class="footer_section layout_padding">
          <div class="container">
@@ -149,8 +255,6 @@
             </div>
          </div>
         </div>
-        
-                
 
 
 

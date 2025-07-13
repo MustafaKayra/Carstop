@@ -749,3 +749,20 @@ th {
 .location_text li a {
     color: #ffffff;
 }
+
+.filteradbutton {
+    margin-top: 20px;
+}
+
+.filtertitle {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.filtersubmitbutton {
+    margin-top: 20px;
+}
+
+.filterinput {
+    margin-bottom: 10px;
+}
