@@ -12,8 +12,46 @@ from django.contrib import messages
 
 def index(request):
     ads = CarSaleAd.objects.filter(is_active=True)
+    step = 1
+    if request.method == "POST":
+        if "filterformbutton" in request.POST:
+            minprice = request.POST.get("minprice")
+            maxprice = request.POST.get("maxprice")
+            mintramer = request.POST.get("mintramer")
+            maxtramer = request.POST.get("maxtramer")
+            targetime = request.POST.get("targetime")
+
+            if minprice:
+                ads = ads.filter(startingprice__gte=minprice)
+                step = 2
+
+            if maxprice:
+                ads = ads.filter(startingprice__lte=maxprice)
+                step = 2
+
+            if mintramer:
+                ads = ads.filter(tramer__gte=mintramer)
+                step = 2
+
+            if maxtramer:
+                ads = ads.filter(tramer__lte=maxtramer)
+                step = 2
+
+            if targetime:
+                try:
+                    from datetime import datetime
+                    date_obj = datetime.strptime(targetime, '%d/%m/%Y')
+                    ads = ads.filter(targetime__date__lte=date_obj.date())
+                    step = 2
+                except ValueError:
+                    messages.warning(request,"Belirttiğiniz Zaman Dilimi Geçerli Değil!")
+        
+        elif "filterdeletebutton" in request.POST:
+            ads = CarSaleAd.objects.filter(is_active=True)
+
     context = {
-        "ads": ads
+        "ads": ads,
+        "step": step
     }
     return render(request, "index.html", context)
 
@@ -456,23 +494,36 @@ def filterad(request):
 
             if minprice:
                 ads = ads.filter(startingprice__gte=minprice)
+                step = 4
             
             if maxprice:
                 ads = ads.filter(startingprice__lte=maxprice)
+                step = 4
 
             if mintramer:
                 ads = ads.filter(tramer__gte=mintramer)
+                step = 4
 
             if maxtramer:
                 ads = ads.filter(tramer__lte=maxtramer)
+                step = 4
 
             if targetime:
                 try:
                     from datetime import datetime
                     date_obj = datetime.strptime(targetime, '%d/%m/%Y')
                     ads = ads.filter(targetime__date__lte=date_obj.date())
+                    step = 4
                 except ValueError:
-                    pass
+                    messages.warning(request,"Belirttiğiniz Zaman Dilimi Yanlış!")
+
+        
+        elif "filterdeletebutton" in request.POST:
+            model_id = request.session.get("model_id")
+            brand_id = request.session.get("brand_id")
+            model = CarModel.objects.get(id=model_id)
+            brand = CarBrand.objects.get(id=brand_id)
+            ads = ads = CarSaleAd.objects.filter(brand=brand, model=model)
 
 
     context = {

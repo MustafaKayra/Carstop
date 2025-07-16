@@ -180,6 +180,12 @@
             <div class="text-center">
                 <button class="btn btn-success filtersubmitbutton" type="submit" name="form6">İlanları Filtrele</button>
             </div>
+            {% if step == 4 %}
+            <div class="text-center">
+                <button class="btn btn-danger filtersubmitbutton" type="submit" name="filterdeletebutton">Filtreleri Kaldır</button>
+            </div>
+            {% else %}
+            {% endif %}
         </form>
         </div>
         <div class="container">
