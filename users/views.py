@@ -42,14 +42,17 @@ def updateuser(request):
     user = CustomUser.objects.get(id=user_id)
 
     if request.method == "POST":
-        form = UserForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            newuser = form.save()
-            login(request, newuser)
-            messages.success(request,"Değişiklikler Kaydedildi")
-            return redirect('index')
+        if request.user:
+            form = UserForm(request.POST, request.FILES, instance=user)
+            if form.is_valid():
+                newuser = form.save()
+                login(request, newuser)
+                messages.success(request,"Değişiklikler Kaydedildi")
+                return redirect('index')
+            else:
+                messages.warning(request,form.errors)
         else:
-            messages.warning(request,form.errors)
+            return redirect('loginuser')
     else:
         form = UserForm(instance=user)
     return render(request,"updateuser.html",{"form": form, "user": user})
@@ -57,8 +60,12 @@ def updateuser(request):
 
 
 def detailuser(request, id):
-    user = CustomUser.objects.get(id=id)
-    usergetad = CarSaleAd.objects.filter(advertiser=user)
+    if request.user:
+        user = CustomUser.objects.get(id=id)
+        usergetad = CarSaleAd.objects.filter(advertiser=user)
+    else:
+        messages.warning(request,"Herhangi Bir Profile Sahip Değilsiniz!")
+        return redirect('loginuser')
     
     context = {
         "user": user,
@@ -69,8 +76,12 @@ def detailuser(request, id):
 
 
 def bids(request):
-    ads = CarSaleAd.objects.filter(bid__user=request.user).distinct()
-    bid_objects = Bid.objects.filter(user=request.user, ad__in=ads)
+    if request.user:
+        ads = CarSaleAd.objects.filter(bid__user=request.user).distinct()
+        bid_objects = Bid.objects.filter(user=request.user, ad__in=ads)
+    else:
+        messages.warning(request,"Herhangi Bir Profile Sahip Değilsiniz!")
+        return redirect('loginuser')
     
 
     context = {

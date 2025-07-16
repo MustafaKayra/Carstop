@@ -76,138 +76,141 @@ def adpost(request):
 
 
     if request.method == "POST":
+        if request.user:
+            if "form1" in request.POST:
+                form1 = CarBrandForm(request.POST)
+                if form1.is_valid():
+                    brandname = form1.cleaned_data.get("brandname")
+                    brandobject = CarBrand.objects.get(brandname=brandname)
 
-        if "form1" in request.POST:
-            form1 = CarBrandForm(request.POST)
-            if form1.is_valid():
-                brandname = form1.cleaned_data.get("brandname")
-                brandobject = CarBrand.objects.get(brandname=brandname)
+                    request.session['brand_id'] = brandobject.id
 
-                request.session['brand_id'] = brandobject.id
+                    modelobject = CarModel.objects.filter(brand=brandobject)
+                    step = 2
+                    print(brandname)
+                    print(brandobject)
+                    print(modelobject)
+                    print(step)
+                    
 
-                modelobject = CarModel.objects.filter(brand=brandobject)
-                step = 2
-                print(brandname)
-                print(brandobject)
-                print(modelobject)
-                print(step)
+            elif "form5" in request.POST:
+                form5 = CarModelBrandForm(request.POST)
+                if form5.is_valid():
+                    modelname = form5.cleaned_data.get("modelname")
+                    model = CarModel.objects.get(modelname=modelname)
+
+                    request.session['model_id'] = model.id
+
+                    step = 3
+                    print(modelname)
+                    print(model)
+
                 
 
-        elif "form5" in request.POST:
-            form5 = CarModelBrandForm(request.POST)
-            if form5.is_valid():
-                modelname = form5.cleaned_data.get("modelname")
-                model = CarModel.objects.get(modelname=modelname)
+            elif "form3" in request.POST:
+                form3 = CarSaleAdForm(request.POST)
+                if form3.is_valid():
+                    adname = form3.cleaned_data.get("adname")
+                    startingprice = form3.cleaned_data.get("startingprice")
+                    tramer = form3.cleaned_data.get("tramer")
+                    numberplate = form3.cleaned_data.get("numberplate")
+                    targetime = form3.cleaned_data.get("targetime")
+                    adescription = form3.cleaned_data.get("adescription")
+                    advertiser = request.user
 
-                request.session['model_id'] = model.id
+                    brand_id = request.session.get("brand_id")
+                    model_id = request.session.get("model_id")
 
-                step = 3
-                print(modelname)
-                print(model)
+                    brand = CarBrand.objects.get(id=brand_id)
+                    modelobjects = CarModel.objects.get(id=model_id)
+
+                    adobject = CarSaleAd.objects.create(adname=adname,startingprice=startingprice,tramer=tramer,numberplate=numberplate,brand=brand,model=modelobjects,targetime=targetime,adescription=adescription,advertiser=advertiser)
+                    request.session['adobject_id'] = adobject.id
+                    messages.success(request,"İlan Oluşturuldu")
+                    step = 4
+                else:
+                    messages.warning(request,form3.errors)
 
             
+            elif "form2" in request.POST:
+                form2 = DamageForm(request.POST)
+                if form2.is_valid():
+                    name = form2.cleaned_data.get("name")
+                    damagetype = form2.cleaned_data.get("damagetype")
+                    adobject_id = request.session.get("adobject_id")
+                    adobject = CarSaleAd.objects.get(id=adobject_id)
 
-        elif "form3" in request.POST:
-            form3 = CarSaleAdForm(request.POST)
-            if form3.is_valid():
-                adname = form3.cleaned_data.get("adname")
-                startingprice = form3.cleaned_data.get("startingprice")
-                tramer = form3.cleaned_data.get("tramer")
-                numberplate = form3.cleaned_data.get("numberplate")
-                targetime = form3.cleaned_data.get("targetime")
-                adescription = form3.cleaned_data.get("adescription")
-                advertiser = request.user
+                    damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
 
-                brand_id = request.session.get("brand_id")
-                model_id = request.session.get("model_id")
+                    filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
+                    if filterdamagedpart.count() > 1:
+                        filterdamagedpart.delete()
+                        raise ValidationError("Parça Çakışması")
+                    
 
-                brand = CarBrand.objects.get(id=brand_id)
-                modelobjects = CarModel.objects.get(id=model_id)
+                    damagedpart = Damage.objects.filter(ad=adobject)
+                    step = 4
+                    print(damage)
+                else:
+                    messages.warning(form2.errors)
 
-                adobject = CarSaleAd.objects.create(adname=adname,startingprice=startingprice,tramer=tramer,numberplate=numberplate,brand=brand,model=modelobjects,targetime=targetime,adescription=adescription,advertiser=advertiser)
-                request.session['adobject_id'] = adobject.id
-                messages.success(request,"İlan Oluşturuldu")
-                step = 4
-            else:
-                messages.warning(request,form3.errors)
+            elif "step5" in request.POST:
+                step = 5
+                print(step)
+                print("Step Değeri Güncellendi")
 
-        
-        elif "form2" in request.POST:
-            form2 = DamageForm(request.POST)
-            if form2.is_valid():
-                name = form2.cleaned_data.get("name")
-                damagetype = form2.cleaned_data.get("damagetype")
+
+
+            elif "deletepart" in request.POST:
+                part_id = request.POST.get("delete_part")
                 adobject_id = request.session.get("adobject_id")
                 adobject = CarSaleAd.objects.get(id=adobject_id)
-
-                damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
-
-                filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
-                if filterdamagedpart.count() > 1:
-                    filterdamagedpart.delete()
-                    raise ValidationError("Parça Çakışması")
-                
-
+                part = Damage.objects.get(id=part_id, ad=adobject)
+                part.delete()
                 damagedpart = Damage.objects.filter(ad=adobject)
                 step = 4
-                print(damage)
-            else:
-                messages.warning(form2.errors)
+                messages.success(request,"Parça Silindi")
 
-        elif "step5" in request.POST:
-            step = 5
-            print(step)
-            print("Step Değeri Güncellendi")
+                
+
+            elif request.method == "POST" and request.FILES.get("image"):
+                form4 = ImagesForm(request.POST, request.FILES)
+                if form4.is_valid():
+                    image = form4.save(commit=False)
+                    adobject_id = request.session.get('adobject_id')
+                    adobject = CarSaleAd.objects.get(id=adobject_id)
+                    image.ad = adobject
+                    image.save()
+                    messages.success(request,"Resim Kaydedildi")
+                    print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
+
+                    imageobjects = Images.objects.filter(ad=adobject)
+
+                    step = 5
+                else:
+                    messages.warning(request,form4.errors)
 
 
 
-        elif "deletepart" in request.POST:
-            part_id = request.POST.get("delete_part")
-            adobject_id = request.session.get("adobject_id")
-            adobject = CarSaleAd.objects.get(id=adobject_id)
-            part = Damage.objects.get(id=part_id, ad=adobject)
-            part.delete()
-            damagedpart = Damage.objects.filter(ad=adobject)
-            step = 4
-            messages.success(request,"Parça Silindi")
+            elif "deleteimage" in request.POST:
+                image_id = request.POST.get("delete_image")
+                adobject_id = request.session.get("adobject_id")
+                adobject = CarSaleAd.objects.get(id=adobject_id)
+                images = Images.objects.get(id=image_id, ad=adobject_id)
+                images.delete()
+                imageobjects = Images.objects.filter(ad=adobject)
+                step = 5
+                messages.success(request,"Resim Silindi")
+
 
             
-
-        elif request.method == "POST" and request.FILES.get("image"):
-            form4 = ImagesForm(request.POST, request.FILES)
-            if form4.is_valid():
-                image = form4.save(commit=False)
-                adobject_id = request.session.get('adobject_id')
-                adobject = CarSaleAd.objects.get(id=adobject_id)
-                image.ad = adobject
-                image.save()
-                messages.success(request,"Resim Kaydedildi")
-                print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
-
-                imageobjects = Images.objects.filter(ad=adobject)
-
-                step = 5
-            else:
-                messages.warning(request,form4.errors)
-
-
-
-        elif "deleteimage" in request.POST:
-            image_id = request.POST.get("delete_image")
-            adobject_id = request.session.get("adobject_id")
-            adobject = CarSaleAd.objects.get(id=adobject_id)
-            images = Images.objects.get(id=image_id, ad=adobject_id)
-            images.delete()
-            imageobjects = Images.objects.filter(ad=adobject)
-            step = 5
-            messages.success(request,"Resim Silindi")
-
-
+                    
+            elif "step6" in request.POST:
+                return redirect('index')
         
-                
-        elif "step6" in request.POST:
-            return redirect('index')
-        
+        else:
+            messages.warning(request,"İlan Oluşturmak İçin Giriş Yapın!")
+            return redirect('loginuser')
 
 
         context = {
@@ -246,44 +249,48 @@ def adpost(request):
 
 
 def adetail(request,slug):
-    ad = CarSaleAd.objects.get(slug=slug,is_active=True)
-    countdown = get_countdown_data(ad)
-    email_send = email_send_data(ad)
+    if request.user:
+        ad = CarSaleAd.objects.get(slug=slug,is_active=True)
+        countdown = get_countdown_data(ad)
+        email_send = email_send_data(ad)
 
-    images = ad.images_set.all()  # Bu ilanla ilişkili tüm resimleri al
+        images = ad.images_set.all()  # Bu ilanla ilişkili tüm resimleri al
 
-    damagedparts = Damage.objects.filter(ad=ad)
-    print(f"Damaged parts: {damagedparts}")
+        damagedparts = Damage.objects.filter(ad=ad)
+        print(f"Damaged parts: {damagedparts}")
 
-    if request.method == "POST":
-        newprice = request.POST.get("price")
-        if int(newprice) > ad.startingprice:
-            if request.user == ad.advertiser:
-                messages.warning(request,"Kullanıcı Kendi İlanına Fiyat Teklifi Yapamaz")
+        if request.method == "POST":
+            newprice = request.POST.get("price")
+            if int(newprice) > ad.startingprice:
+                if request.user == ad.advertiser:
+                    messages.warning(request,"Kullanıcı Kendi İlanına Fiyat Teklifi Yapamaz")
+                else:
+                    ad.startingprice = newprice
+                    ad.save()
+
+                    Bid.objects.create(ad=ad, user=request.user, amount=newprice)
+                    send_mail(
+                        subject="İlanınıza Yeni Bir Teklif Geldi!",
+                        message=f"""{ad.adname} İlanınıza {newprice} değerinde yeni bir teklif geldi
+                        
+                        İLAN DETAYLARI:
+                        İlan İsmi: {ad.adname}
+                        İlan Bitiş Tarihi: {ad.targetime}
+                        İlan Güncel Fiyatı: {ad.startingprice}
+                        Araç Plakası: {ad.numberplate}
+                        Araç Model: {ad.model}
+
+                        """,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[ad.advertiser.email],
+                        fail_silently=False,
+                    )
+                    messages.success(request,"İlan Fiyatı Güncellendi")
             else:
-                ad.startingprice = newprice
-                ad.save()
-
-                Bid.objects.create(ad=ad, user=request.user, amount=newprice)
-                send_mail(
-                    subject="İlanınıza Yeni Bir Teklif Geldi!",
-                    message=f"""{ad.adname} İlanınıza {newprice} değerinde yeni bir teklif geldi
-                    
-                    İLAN DETAYLARI:
-                    İlan İsmi: {ad.adname}
-                    İlan Bitiş Tarihi: {ad.targetime}
-                    İlan Güncel Fiyatı: {ad.startingprice}
-                    Araç Plakası: {ad.numberplate}
-                    Araç Model: {ad.model}
-
-                    """,
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[ad.advertiser.email],
-                    fail_silently=False,
-                )
-                messages.success(request,"İlan Fiyatı Güncellendi")
-        else:
-            messages.warning(request,"Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
+                messages.warning(request,"Önerilen Fiyat, Güncel Fiyattan Küçük Olamaz!")
+    else:
+        messages.warning(request,"İlanlara Göz Atmak İçin Giriş Yapın!")
+        return redirect('loginuser')
 
     context = {
         "ad": ad,
@@ -316,107 +323,110 @@ def updatead(request, slug):
     step = 3
 
     if request.method == "POST":
-        
-        if "form3" in request.POST:
-            form3 = CarSaleAdForm(request.POST, instance=ad)
-            request.session['adobject_startingprice'] = ad.startingprice
-            ad_startingprice = request.session.get("adobject_startingprice")
-            if form3.is_valid():
-                newad = form3.save(commit=False)
-                bid = Bid.objects.filter(ad=ad)
-                if bid:
-                    newad.startingprice = ad_startingprice
-                    messages.warning(request,"Fiyat Teklifi Verilen Bir İlan Fiyatı Güncellenemez")
-                    newad.advertiser = request.user
-                    newad.save()
+        if ad.advertiser == request.user:        
+            if "form3" in request.POST:
+                form3 = CarSaleAdForm(request.POST, instance=ad)
+                request.session['adobject_startingprice'] = ad.startingprice
+                ad_startingprice = request.session.get("adobject_startingprice")
+                if form3.is_valid():
+                    newad = form3.save(commit=False)
+                    bid = Bid.objects.filter(ad=ad)
+                    if bid:
+                        newad.startingprice = ad_startingprice
+                        messages.warning(request,"Fiyat Teklifi Verilen Bir İlan Fiyatı Güncellenemez")
+                        newad.advertiser = request.user
+                        newad.save()
+                    else:
+                        newad.advertiser = request.user
+                        newad.save()
+
+                    request.session['adobject_id'] = newad.id
+                    messages.success(request,"İlan Güncellendi")
+                    step = 4
                 else:
-                    newad.advertiser = request.user
-                    newad.save()
-
-                request.session['adobject_id'] = newad.id
-                messages.success(request,"İlan Güncellendi")
-                step = 4
-            else:
-                messages.warning(request,form3.errors)
-
-        
-        elif "form2" in request.POST:
-            form2 = DamageForm(request.POST, instance=ad)
-            if form2.is_valid():
-                name = form2.cleaned_data.get("name")
-                damagetype = form2.cleaned_data.get("damagetype")
-                adobject_id = request.session.get("adobject_id")
-                adobject = CarSaleAd.objects.get(id=adobject_id)
-
-                damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
-
-                filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
-                if filterdamagedpart.count() > 1:
-                    filterdamagedpart.delete()
-                    raise ValidationError("Parça Çakışması")
-                
-
-                damagedpart = Damage.objects.filter(ad=adobject)
-                step = 4
-                print(damage)
-            else:
-                messages.warning(request,form2.errors)
-
-        elif "step5" in request.POST:
-            step = 5
-            print(step)
-            print("Step Değeri Güncellendi")
-
-
-
-        elif "deletepart" in request.POST:
-            part_id = request.POST.get("delete_part")
-            adobject_id = request.session.get("adobject_id")
-            adobject = CarSaleAd.objects.get(id=adobject_id)
-            part = Damage.objects.get(id=part_id, ad=adobject)
-            part.delete()
-            damagedpart = Damage.objects.filter(ad=adobject)
-            step = 4
-            messages.success(request,"Parça Başarıyla Silindi")
+                    messages.warning(request,form3.errors)
 
             
+            elif "form2" in request.POST:
+                form2 = DamageForm(request.POST, instance=ad)
+                if form2.is_valid():
+                    name = form2.cleaned_data.get("name")
+                    damagetype = form2.cleaned_data.get("damagetype")
+                    adobject_id = request.session.get("adobject_id")
+                    adobject = CarSaleAd.objects.get(id=adobject_id)
 
-        elif request.method == "POST" and request.FILES.get("image"):
-            form4 = ImagesForm(request.POST, request.FILES)
-            imageobjects = Images.objects.filter(ad=adobject)
-            if form4.is_valid():
-                image = form4.save(commit=False)
-                adobject_id = request.session.get('adobject_id')
-                adobject = CarSaleAd.objects.get(id=adobject_id)
-                image.ad = adobject
-                image.save()
-                print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
-                messages.success(request,"Resim Kaydedildi")
+                    damage = Damage.objects.create(name=name,damagetype=damagetype,ad=adobject)
 
-                imageobjects = Images.objects.filter(ad=adobject)
+                    filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
+                    if filterdamagedpart.count() > 1:
+                        filterdamagedpart.delete()
+                        raise ValidationError("Parça Çakışması")
+                    
 
+                    damagedpart = Damage.objects.filter(ad=adobject)
+                    step = 4
+                    print(damage)
+                else:
+                    messages.warning(request,form2.errors)
+
+            elif "step5" in request.POST:
                 step = 5
-            else:
-                messages.warning(request,form4.errors)
+                print(step)
+                print("Step Değeri Güncellendi")
 
 
 
-        elif "deleteimage" in request.POST:
-            image_id = request.POST.get("delete_image")
-            adobject_id = request.session.get("adobject_id")
-            adobject = CarSaleAd.objects.get(id=adobject_id)
-            images = Images.objects.get(id=image_id, ad=adobject_id)
-            images.delete()
-            imageobjects = Images.objects.filter(ad=adobject)
-            step = 5
-            messages.success(request,"Resim Silindi")
+            elif "deletepart" in request.POST:
+                part_id = request.POST.get("delete_part")
+                adobject_id = request.session.get("adobject_id")
+                adobject = CarSaleAd.objects.get(id=adobject_id)
+                part = Damage.objects.get(id=part_id, ad=adobject)
+                part.delete()
+                damagedpart = Damage.objects.filter(ad=adobject)
+                step = 4
+                messages.success(request,"Parça Başarıyla Silindi")
 
-
-        
                 
-        elif "step6" in request.POST:
-            return redirect('index')
+
+            elif request.method == "POST" and request.FILES.get("image"):
+                form4 = ImagesForm(request.POST, request.FILES)
+                imageobjects = Images.objects.filter(ad=adobject)
+                if form4.is_valid():
+                    image = form4.save(commit=False)
+                    adobject_id = request.session.get('adobject_id')
+                    adobject = CarSaleAd.objects.get(id=adobject_id)
+                    image.ad = adobject
+                    image.save()
+                    print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
+                    messages.success(request,"Resim Kaydedildi")
+
+                    imageobjects = Images.objects.filter(ad=adobject)
+
+                    step = 5
+                else:
+                    messages.warning(request,form4.errors)
+
+
+
+            elif "deleteimage" in request.POST:
+                image_id = request.POST.get("delete_image")
+                adobject_id = request.session.get("adobject_id")
+                adobject = CarSaleAd.objects.get(id=adobject_id)
+                images = Images.objects.get(id=image_id, ad=adobject_id)
+                images.delete()
+                imageobjects = Images.objects.filter(ad=adobject)
+                step = 5
+                messages.success(request,"Resim Silindi")
+
+
+            
+                    
+            elif "step6" in request.POST:
+                return redirect('index')
         
+        else:
+            messages.warning(request,"Başka Bir Kullanıcının İlanında Düzenleme Yapamazsınız!")
+            return redirect('loginuser')
 
 
         context = {
@@ -457,74 +467,78 @@ def filterad(request):
     step = 1
 
     if request.method == "POST":
-        if "form1" in request.POST:
-            brandname = request.POST.get("brandname")
-            brandobject = CarBrand.objects.get(brandname=brandname)
-            request.session['brand_id'] = brandobject.id
-            modelobject = CarModel.objects.filter(brand=brandobject)
-            step = 2
-            print(f"brandname: {brandname}, brandobject: {brandobject}, brand_id: {brandobject.id}")
-        
-
-        elif "form5" in request.POST:
-            modelname = request.POST.get("modelname")
-            model = CarModel.objects.get(modelname=modelname)
-            request.session['model_id'] = model.id
-
-            brand_id = request.session.get("brand_id")
-            brand = CarBrand.objects.get(id=brand_id)
-            ads = CarSaleAd.objects.filter(brand=brand, model=model)
-            step = 3
-
-
-        elif "form6" in request.POST:
-            model_id = request.session.get("model_id")
-            brand_id = request.session.get("brand_id")
-            model = CarModel.objects.get(id=model_id)
-            brand = CarBrand.objects.get(id=brand_id)
-            ads = CarSaleAd.objects.filter(brand=brand, model=model)
-
-            minprice = request.POST.get("minprice")
-            maxprice = request.POST.get("maxprice")
-            mintramer = request.POST.get("mintramer")
-            maxtramer = request.POST.get("maxtramer")
-            targetime = request.POST.get("targetime")
-            print(targetime)
-            step = 3
-
-            if minprice:
-                ads = ads.filter(startingprice__gte=minprice)
-                step = 4
+        if request.user:
+            if "form1" in request.POST:
+                brandname = request.POST.get("brandname")
+                brandobject = CarBrand.objects.get(brandname=brandname)
+                request.session['brand_id'] = brandobject.id
+                modelobject = CarModel.objects.filter(brand=brandobject)
+                step = 2
+                print(f"brandname: {brandname}, brandobject: {brandobject}, brand_id: {brandobject.id}")
             
-            if maxprice:
-                ads = ads.filter(startingprice__lte=maxprice)
-                step = 4
 
-            if mintramer:
-                ads = ads.filter(tramer__gte=mintramer)
-                step = 4
+            elif "form5" in request.POST:
+                modelname = request.POST.get("modelname")
+                model = CarModel.objects.get(modelname=modelname)
+                request.session['model_id'] = model.id
 
-            if maxtramer:
-                ads = ads.filter(tramer__lte=maxtramer)
-                step = 4
+                brand_id = request.session.get("brand_id")
+                brand = CarBrand.objects.get(id=brand_id)
+                ads = CarSaleAd.objects.filter(brand=brand, model=model)
+                step = 3
 
-            if targetime:
-                try:
-                    from datetime import datetime
-                    date_obj = datetime.strptime(targetime, '%d/%m/%Y')
-                    ads = ads.filter(targetime__date__lte=date_obj.date())
+
+            elif "form6" in request.POST:
+                model_id = request.session.get("model_id")
+                brand_id = request.session.get("brand_id")
+                model = CarModel.objects.get(id=model_id)
+                brand = CarBrand.objects.get(id=brand_id)
+                ads = CarSaleAd.objects.filter(brand=brand, model=model)
+
+                minprice = request.POST.get("minprice")
+                maxprice = request.POST.get("maxprice")
+                mintramer = request.POST.get("mintramer")
+                maxtramer = request.POST.get("maxtramer")
+                targetime = request.POST.get("targetime")
+                print(targetime)
+                step = 3
+
+                if minprice:
+                    ads = ads.filter(startingprice__gte=minprice)
                     step = 4
-                except ValueError:
-                    messages.warning(request,"Belirttiğiniz Zaman Dilimi Yanlış!")
+                
+                if maxprice:
+                    ads = ads.filter(startingprice__lte=maxprice)
+                    step = 4
 
-        
-        elif "filterdeletebutton" in request.POST:
-            model_id = request.session.get("model_id")
-            brand_id = request.session.get("brand_id")
-            model = CarModel.objects.get(id=model_id)
-            brand = CarBrand.objects.get(id=brand_id)
-            ads = ads = CarSaleAd.objects.filter(brand=brand, model=model)
+                if mintramer:
+                    ads = ads.filter(tramer__gte=mintramer)
+                    step = 4
 
+                if maxtramer:
+                    ads = ads.filter(tramer__lte=maxtramer)
+                    step = 4
+
+                if targetime:
+                    try:
+                        from datetime import datetime
+                        date_obj = datetime.strptime(targetime, '%d/%m/%Y')
+                        ads = ads.filter(targetime__date__lte=date_obj.date())
+                        step = 4
+                    except ValueError:
+                        messages.warning(request,"Belirttiğiniz Zaman Dilimi Yanlış!")
+
+            
+            elif "filterdeletebutton" in request.POST:
+                model_id = request.session.get("model_id")
+                brand_id = request.session.get("brand_id")
+                model = CarModel.objects.get(id=model_id)
+                brand = CarBrand.objects.get(id=brand_id)
+                ads = ads = CarSaleAd.objects.filter(brand=brand, model=model)
+
+        else:
+            messages.warning(request,"İlanları Filtrelemek İçin Giriş Yapın!")
+            return redirect('loginuser')
 
     context = {
         "carbrand": carbrand,
