@@ -1,3 +1,32 @@
+body.dark-theme, body.dark-theme * {
+  background-color: #252525 !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme .btn-warning {
+  background-color: #ffd260;
+  color: #252525;
+}
+
+/* Navbar'a daha da koyu görünüm */
+body.dark-theme .navbar {
+  background-color: #111 !important;
+  border-bottom: 1px solid #444;
+}
+
+/* Toggle butonu karanlık temada ters renk olsun */
+body.dark-theme #toggleThemeBtn {
+  background-color: #ffd260;
+  color: #252525;
+  border-color: #ffd260;
+}
+
+body.dark-theme .footer_section {
+  background-color: #111 !important;
+  color: #ffd260 !important;
+}
+
 .buttonitem {
   border-radius: 20px;
   width: 100%;
@@ -762,8 +791,74 @@ th {
 
 .filtersubmitbutton {
     margin-top: 20px;
+    background: linear-gradient(to right, #0986b2, #07cdff) !important;
+}
+
+.filtersubmitbutton:hover {
+    margin-top: 20px;
+    background: linear-gradient(to right, #0986b2, #07cdff) !important;
+    transition: all 0.3s ease;
+    transform: scale(1.08);
+}
+
+.filtertitle {
+    margin-top: 20px;
 }
 
 .filterinput {
     margin-bottom: 10px;
+}
+
+.filtercol {
+    margin-left: 160px !important;
+}
+
+@media (max-width: 768px) {
+    .filtercol {
+        margin-left: 0px !important;
+    }
+}
+
+.indextitle {
+    margin-top: 30px;
+    font-size: 70px !important;
+}
+
+.indexparagraph {
+    margin-bottom: 70px;
+}
+
+.infocard {
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
+    height: 250px;
+    width: 400px;
+}
+
+.infocard:hover {
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
+    height: 250px;
+    width: 400px;
+    transition: all 0.3s ease;
+    transform: scale(1.08);
+}
+
+.infobutton {
+    border: 0px;
+    background-color: #ffffff;
+    height: 250px;
+    width: 400px;
+}
+
+.infotitle {
+    font-size: 40px;
+}
+
+.caricon {
+    font-size: 90px;
 }

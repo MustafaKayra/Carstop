@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carstop | Kullanıcı Oluştur</title>
+    <title>Carstop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
@@ -14,10 +14,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
+    
     {% if request.user %}
     <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
@@ -38,6 +39,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbartext" href="{% url 'filterad' %}">Filtreler</a>
                 </li>
                 <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
             </ul>
@@ -80,73 +84,88 @@
         {% endfor %}
                               
     {% endif %}
+    
 
-
-    <div class="container">
-        <form method="post" enctype="multipart/form-data">
+        <h1 class="text-center indextitle">İLANLAR</h1>
+        <p class="text-center indexparagraph">Diğer Araç Sahiplerinin İlanlarına Buradan Göz Atabilirsiniz</p>
+        <hr>
+        <div class="container filtercontainer">
+        <form method="post">
         {% csrf_token %}
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label class="invisible"></label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Adresiniz" name="email">
+            <div class="row text-center filtercol">
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="minprice" class="form-control filterinput" placeholder="Minimum Fiyat">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="maxprice" class="form-control filterinput" placeholder=" Maksimum Fiyat">
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-6">
-                    <div class="input-group createusergsm">
-                        <label class="invisible"></label>
-                        <span class="input-group-text">+90</span>
-                        <input type="number" name="gsmnumber" class="form-control" placeholder="Telefon Numaranız">
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="mintramer" class="form-control filterinput" placeholder="Minimum Tramer">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <input type="number" name="maxtramer" class="form-control filterinput" placeholder="Maksimum Tramer">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row createusernamerow">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">İsim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="İsminiz" name="first_name">
-                    </div>
-                </div>
-                
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Soy isim</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Soy isminiz" name="last_name">
-                    </div>
-                </div>
-            </div>
-            <div class="row createuserpasswordrow">
-                <div class="col-12">
-                    <label for="exampleInputEmail1">Şifre</label>
-                    <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Şifreniz" name="password">
-                </div>
-            </div>
-            <div class="row createuserimagerow">
-                <div class="col-12">
-                    <div class="custom-file createuserprofilepicture" onclick="document.getElementById('formFile').click();">
-                        <h5>Profil Fotoğrafınızı Bu Alana Tıklayarak Seçiniz</h5>
-                        <input type="file" id="formFile" style="display: none;" name="profilepicture">
+                <div class="col-4">
+                    <div class="col-6">
+                        <div class="input-group date" id="datepicker">
+                            <input type="text" class="form-control" name="targetime" id="date" placeholder="Tarih" />
+                            <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row createuserbiographyrow">
-                <div class="col-12">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Biyografi</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="biography"></textarea>
-                    </div>
-                    
-                    <div class="d-flex justify-content-center mt-3">
-                        <button class="btn btn-success createuserbutton">Kullanıcı Hesabı Oluştur</button>
-                    </div>
-                </div>
+            <div class="text-center">
+                <button class="btn btn-success filtersubmitbutton" type="submit" name="filterformbutton">İlanları Filtrele</button>
             </div>
+            {% if step == 2 %}
+            <div class="text-center">
+                <button class="btn btn-danger filtersubmitbutton" type="submit" name="filterdeletebutton">Filtreleri Kaldır</button>
+            </div>
+            {% else %}
+            {% endif %}
         </form>
-    </div>
+        </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for ad in ads %}
+                <div class="col">
+                    <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                        <button class="adformbuttonitem" type="submit">
+                            <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ ad.adname }}</h5>
+                            </div>
+                            <ul class="list-group list-group-flush modelinfo">
+                                <li class="list-group-item">{{ ad.startingprice }} TL</li>
+                                <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
+                                <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
+                                <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
+                            </ul>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div> 
 
 
-    <div class="footer_section layout_padding">
+        <div class="footer_section layout_padding">
          <div class="container">
             <div class="row">
                <div class="col-lg-3 col-sm-6">
@@ -190,6 +209,9 @@
             </div>
          </div>
         </div>
+        
+                
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -239,6 +261,7 @@
         }
     });
     </script>
+
     
 </body>
 </html>

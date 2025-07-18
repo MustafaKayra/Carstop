@@ -17,5 +17,6 @@ urlpatterns = [
     path('detailuser/<int:id>',users_views.detailuser,name="detailuser"),
     path('updatead/<slug:slug>',views.updatead,name="updatead"),
     path('bids/',users_views.bids,name="bids"),
-    path('filter/',views.filterad,name="filterad")
+    path('filter/',views.filterad,name="filterad"),
+    path('ads/',views.ads,name="ads")
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
