@@ -18,54 +18,57 @@
 </head>
 <body>
     
-
-    {% if request.user %}
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand navbartext" href="#">Carstop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon navbartoggler">...</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link navbartext" aria-current="page" href="{% url 'adpost' %}">İlan Oluştur</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
-                </li>
-                <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
-            </ul>
+    <section id="updateuser" class="updateusersection">
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary center-navbar">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navbartoggler">...</span>
+                </button>
+                <div class="collapse navbar-collapse center-navbar" id="navbarNav">
+                <ul class="navbar-nav">
+                    <a class="navbar-brand navbarbrand" href="/">Carstop</a>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" aria-current="page" href="{% url 'adpost' %}">İlan Oluştur</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'filterad' %}">Filtreler</a>
+                    </li>
+                    <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
+                </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    {% else %}
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand navbartext" href="#">Carstop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon navbartoggler">...</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
-                </li>
-                <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
-            </ul>
+        </nav>
+        {% else %}
+        <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary center-navbar" data-bs-theme="dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navbartoggler">...</span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <a class="navbar-brand navbarbrand" href="/">Carstop</a>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
+                    </li>
+                    <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
+                </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    {% endif %}
+        </nav>
+        {% endif %}
 
     {% if messages %}
                 
@@ -83,6 +86,9 @@
     {% endif %}
 
 
+        <h1 class="text-center pagetitlewhite">Bilgilerini Düzenle</h1>
+        <p class="text-center pageparagraphwhite">Kullanıcı Bilgilerinizi Düzenleyin</p>
+    </section>
     <div class="container">
         <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -151,7 +157,7 @@
                     </div>
                     
                     <div class="d-flex justify-content-center mt-3">
-                        <button class="btn btn-success createuserbutton">Bilgileri Güncelle</button>
+                        <button class="btn btn-success createuserbutton" style="margin-bottom: 30px;">Bilgileri Güncelle</button>
                     </div>
                 </div>
             </div>

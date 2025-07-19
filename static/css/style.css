@@ -50,6 +50,7 @@ body.dark-theme .footer_section {
   border: 0 !important;
   padding: 1.5rem;
   margin-top: 2rem;
+  background-color: transparent !important;
 }
 
 @media (max-width: 768px) {
@@ -194,21 +195,15 @@ body.dark-theme .footer_section {
 }
 
 .adform {
-    padding-top: 100px;
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
 @media (max-width: 768px) {
     .adform {
-        padding-top: 50px;
         padding-left: 1rem;
         padding-right: 1rem;
     }
-}
-
-.adformtitle {
-    padding: 50px !important;
 }
 
 .adforminteger {
@@ -391,7 +386,7 @@ th {
 }
 
 .step6button {
-    margin-top: 10px;
+    margin-top: 50px;
 }
 
 @media (max-width: 768px) {
@@ -720,17 +715,66 @@ th {
     }
 }
 
-.navbartext {
+.center-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbarbrand {
+    color: #111 !important;
+    font-size: 20px;
+}
+
+.navbarbrand:hover {
+    color: #111 !important;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    transform: scale(1.30);
+}
+
+.navbarbrandwhite {
     color: #ffffff !important;
+    font-size: 20px;
+}
+
+.navbarbrandwhite:hover {
+    color: #ffffff !important;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    transform: scale(1.30);
+}
+
+.navbartext {
+    color: #111 !important;
+    font-size: 20px;
+}
+
+.navbartext:hover {
+    color: #111 !important;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    transform: scale(1.08);
+}
+
+.navbartextwhite {
+    color: #ffffff !important;
+    font-size: 20px;
+}
+
+.navbartextwhite:hover {
+    color: #ffffff !important;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    transform: scale(1.08);
 }
 
 .navbartoggler {
     font-size: 34px;
-    color: #ffffff;
+    color: #111;
 }
 
 .footer_section {
-    margin-top: 40px;
     width: 100%;
     float: left;
     background-color: #252525;
@@ -824,6 +868,26 @@ th {
     font-size: 70px !important;
 }
 
+.pagetitle {
+    font-size: 70px !important;
+}
+
+.pageparagraph {
+    font-size: 30px;
+    margin-bottom: 70px;
+}
+
+.pagetitlewhite {
+    font-size: 70px !important;
+    color: #ffffff;
+}
+
+.pageparagraphwhite {
+    font-size: 30px;
+    margin-bottom: 70px;
+    color: #ffffff;
+}
+
 .indexparagraph {
     margin-bottom: 70px;
 }
@@ -861,4 +925,129 @@ th {
 
 .caricon {
     font-size: 90px;
+}
+
+.startersection {
+    background-image: url("../images/2449122282.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.brandsection {
+    background-image: url("../images/arac-satisi-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.modelsection {
+    background-image: url("../images/sıfır-araba-almak (3).jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.adstartersection {
+    background-image: url("../images/sıfır-araba-almak (3).jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.damagedpartsection {
+    background-image: url("../images/oto-ekspertiz.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 250px;
+}
+
+@media (max-width: 768px) {
+    .damagedpartsection {
+        background-image: url("../images/oto-ekspertiz.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        padding-bottom: 10px;
+    }
+}
+
+.imagesection {
+    background-image: url("../images/audi-a5_2391bee28.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.createusersection {
+    background-image: url("../images/volkswagen-golf.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.loginusersection {
+    background-image: url("../images/peugeot-308.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
+}
+
+.updateusersection {
+    background-image: url("../images/volkswagen-golf-8-2019.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 100px;
+    margin-bottom: 30px;
+}
+
+.bidsection {
+    background-image: url("../images/fiyat-teklifi-gonderirken-nelere-dikkat-edilmeli.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 100px;
+    margin-bottom: 30px;
+}
+
+.indexsection {
+    background-image: url("../images/mercedes-benz-mercedes-amg-s65-black-car-car-luxury-car-hd-wallpaper-preview.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 100px;
+    margin-bottom: 30px;
+}
+
+.filterbrandsection {
+    background-image: url("../images/cin-araba-markalari.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.filtermodelsection {
+    background-image: url("../images/skoda-rs.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.filterstartersection {
+    background-image: url("../images/H1_skoda-octavia-rs_216-copy_bafa8f92-1920x1080.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding-bottom: 50px;
+    margin-bottom: 30px;
 }

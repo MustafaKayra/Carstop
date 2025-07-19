@@ -18,53 +18,56 @@
 </head>
 <body>
 
-    {% if request.user %}
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand navbartext" href="#">Carstop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon navbartoggler">...</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link navbartext" aria-current="page" href="{% url 'adpost' %}">İlan Oluştur</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
-                </li>
-                <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
-            </ul>
+    {% if user.is_authenticated %}
+        <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary center-navbar">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navbartoggler">...</span>
+                </button>
+                <div class="collapse navbar-collapse center-navbar" id="navbarNav">
+                <ul class="navbar-nav">
+                    <a class="navbar-brand navbarbrandwhite" href="/">Carstop</a>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" aria-current="page" href="{% url 'adpost' %}">İlan Oluştur</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'createuser' %}">Kayıt</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'loginuser' %}">Giriş</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'detailuser' request.user.id %}">Profil</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'filterad' %}">Filtreler</a>
+                    </li>
+                    <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
+                </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    {% else %}
-    <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-        <div class="container-fluid">
-            <a class="navbar-brand navbartext" href="#">Carstop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon navbartoggler">...</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'createuser' %}">Kayıt</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
-                </li>
-                <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
-            </ul>
+        </nav>
+        {% else %}
+        <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary center-navbar" data-bs-theme="dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon navbartoggler">...</span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <a class="navbar-brand navbarbrandwhite" href="/">Carstop</a>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'createuser' %}">Kayıt</a>
+                    </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link navbartextwhite" href="{% url 'loginuser' %}">Giriş</a>
+                    </li>
+                    <button id="toggleThemeBtn" class="btn btn-warning">🌙 Dark Mode</button>
+                </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    {% endif %}
+        </nav>
+        {% endif %}
 
     {% if messages %}
                 
@@ -85,65 +88,70 @@
 
     {% if step == 1 %}
 
-        <h1 class="text-center">Aracınızı İlana Koyun</h1>
-
-
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for car in carbrand %}
-                <div class="col">
-                    <form method="post">
-                    {% csrf_token %}
-                        <div class="card h-100 carditem">
-                        <button class="adformbuttonitem" type="submit" name="form1">
-                            <img class="adpostcardimage" src="{{ car.image.url }}" height="250px" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ car.brandname }}</h5>
+        <section id="marka" class="brandsection">
+            <h1 class="text-center pagetitle">Aracınızı İlana Koyun</h1>
+            <p class="text-center pageparagraph">Aracın Markasını Seçiniz</p>
+            <div class="container adformbrandcontainer">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for car in carbrand %}
+                    <div class="col">
+                        <form method="post">
+                        {% csrf_token %}
+                            <div class="card h-100 carditem">
+                            <button class="adformbuttonitem" type="submit" name="form1">
+                                <img class="adpostcardimage" src="{{ car.image.url }}" height="250px" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ car.brandname }}</h5>
+                                </div>
+                                <input type="hidden" name="brandname" value="{{ car.brandname }}">
+                            </button>
                             </div>
-                            <input type="hidden" name="brandname" value="{{ car.brandname }}">
-                        </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-        </div>
+        </section>
     
     {% elif step == 2 %}
 
-        <h1 class="text-center">Aracın Modelini Seçin</h1>
-
-        <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for model in modelobject %}
-                <div class="col">
-                    <form method="post">
-                    {% csrf_token %}
-                        <div class="card h-100 carditem">
-                        <button class="adformbuttonitem" type="submit" name="form5">
-                            <img class="indexcardimage" src="{{ model.image.url }}" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ model.brand }} | {{ model.modelname }}</h5>
+        <section id="model" class="modelsection">
+            <h1 class="text-center">Aracın Modelini Seçin</h1>
+            <p class="text-center pageparagraph">Aracın Modelini Seçiniz</p>
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for model in modelobject %}
+                    <div class="col">
+                        <form method="post">
+                        {% csrf_token %}
+                            <div class="card h-100 carditem">
+                            <button class="adformbuttonitem" type="submit" name="form5">
+                                <img class="indexcardimage" src="{{ model.image.url }}" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ model.brand }} | {{ model.modelname }}</h5>
+                                </div>
+                                <ul class="list-group list-group-flush modelinfo">
+                                    <li class="list-group-item">{{ model.modelyear }} Model</li>
+                                    <li class="list-group-item">{{ model.fueltype }}</li>
+                                    <li class="list-group-item">{{ model.enginesize }} Litre</li>
+                                    <li class="list-group-item">{{ model.enginepower }} HP</li>
+                                </ul>
+                                <input type="hidden" name="modelname" value="{{ model.modelname }}">
+                            </button>
                             </div>
-                            <ul class="list-group list-group-flush modelinfo">
-                                <li class="list-group-item">{{ model.modelyear }} Model</li>
-                                <li class="list-group-item">{{ model.fueltype }}</li>
-                                <li class="list-group-item">{{ model.enginesize }} Litre</li>
-                                <li class="list-group-item">{{ model.enginepower }} HP</li>
-                            </ul>
-                            <input type="hidden" name="modelname" value="{{ model.modelname }}">
-                        </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-        </div>
+        </section>
 
         {% elif step == 3 %}
 
-            <h1 class="text-center adformtitle">Araba İlanı Oluştur</h1>
-
+        <section id="ilanbaslangic" class="adstartersection">
+            <h1 class="text-center pagetitle">Araba İlanı Oluştur</h1>
+            <p class="text-center pageparagraph">Aracınızın İlan Detaylarını Giriniz</p>
+        </section>
             <div class="container">
                 <form method="post">
                 {% csrf_token %}
@@ -200,7 +208,7 @@
                         <div class="adformtextarea">
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="İlan Açıklaması" name="adescription"></textarea>
                         </div>
-                        <button class="btn btn-success adformbutton" name="form3" type="submit">İlan Oluştur</button>
+                        <button class="btn btn-success" style="margin-bottom: 30px;" name="form3" type="submit">İlan Oluştur</button>
                     </div>
                 </form>
             </div>
@@ -227,10 +235,11 @@
         
         {% elif step == 4 %}
 
+            <section id="damagedpart" class="damagedpartsection">
+                <h1 class="text-center pagetitle">Hasarlı Parçaları Seç</h1>
+                <p class="text-center pageparagraph">Aracınızın Hasarlı Parçalarını Seçiniz. İşlemi Tamamladıktan Sonra "Diğer Adıma Geçin" Butonuna Tıklayınız</p>
+            </section>
             <div class="container">
-                <div class="row">
-                    <h1 class="text-center col-sm-12">Hasarlı Parçaları Seç</h1>
-                </div>
                 <form method="post">
                 {% csrf_token %}
                     <div class="row damageparts">
@@ -305,9 +314,12 @@
 
         {% elif step == 5 %}
 
+            <section id="resimler" class="imagesection">
+                <h1 class="text-center pagetitle">Araç Resimlerini Ekle</h1>
+                <p class="text-center pageparagraph">Aracınızın Resimlerini Ekleyin. İşlem bittikten Sonra "Diğer Adıma Geçin" Butonuna Tıklayın</p>
+            </section>
             <div class="container">
                 <div class="row imagerow">
-                    <h1 class="text-center imageformtitle">Araç Resimlerini Ekle</h1>
                         <div class="card text-white imageform">
                             <form method="post" enctype="multipart/form-data" id="imageForm">
                             {% csrf_token %}
