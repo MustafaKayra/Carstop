@@ -92,7 +92,7 @@
         {% if user.is_authenticated %}
         <div class="container infocontainer">
             <div class="row">
-                <div class="col-4">
+                <div class="col-12 col-md-4 mb-4">
                     <a href="{% url 'adpost' %}" class="text-decoration-none text-dark">
                         <div class="infocard">
                             <h5 class="infotitle">İlan Oluştur</h5>
@@ -101,7 +101,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4 mb-4">
                     <a href="{% url 'createuser' %}" class="text-decoration-none text-dark">
                         <div class="infocard">
                             <h5 class="infotitle">Kayıt Ol</h5>
@@ -110,7 +110,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-4">
+                <div class="col-12 col-md-4 mb-4">
                     <a href="{% url 'detailuser' request.user.id %}" class="text-decoration-none text-dark">
                         <div class="infocard">
                             <h5 class="infotitle">Profilini İncele</h5>

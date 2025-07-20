@@ -639,11 +639,24 @@ th {
     width: 100%;
     border: 2px solid #000000;
     border-top: 0px;
+}
+
+.updateadbuttondisabled {
+    height: 50px;
+    width: 400px;
+    border: 2px solid rgba(118, 118, 118, 0.3);
+}
+
+.deleteadbutton {
+    height: 50px;
+    width: 100%;
+    border: 2px solid #000000;
+    border-top: 0px;
     border-bottom-left-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
 }
 
-.updateadbuttondisabled {
+.deleteadbuttondisabled {
     height: 50px;
     width: 400px;
     border: 2px solid rgba(118, 118, 118, 0.3);
@@ -899,6 +912,7 @@ th {
     box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
     height: 250px;
     width: 400px;
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
 .infocard:hover {
@@ -910,6 +924,41 @@ th {
     width: 400px;
     transition: all 0.3s ease;
     transform: scale(1.08);
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px); /* arka planı blur yapar */
+    -webkit-backdrop-filter: blur(10px); /* Safari desteği için */
+}
+
+@media(max-width: 768px) {
+    .infocard {
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
+        height: 220px;
+        width: 335px;
+    }
+
+.infocard:hover {
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
+        height: 220px;
+        width: 335px;
+        transition: all 0.3s ease;
+        transform: scale(1.08);
+    }
+}
+
+.caricon {
+    font-size: 90px;
+}
+
+@media(max-width: 768px) {
+    .caricon {
+        font-size: 70px;
+    }
 }
 
 .infobutton {
@@ -921,10 +970,6 @@ th {
 
 .infotitle {
     font-size: 40px;
-}
-
-.caricon {
-    font-size: 90px;
 }
 
 .startersection {

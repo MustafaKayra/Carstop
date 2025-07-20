@@ -593,3 +593,10 @@ def ads(request):
         "step": step
     }
     return render(request, "ads.html", context)
+
+
+def deletead(request, slug):
+    ad = CarSaleAd.objects.get(slug=slug)
+    ad.delete()
+    print("İlan Silindi")
+    return redirect('index')

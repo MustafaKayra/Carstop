@@ -127,6 +127,7 @@
             <div class="col-12 col-md-8">
                 <div class="detailuserbiography">
                 {% if user.biography %}
+                    <h5 class="text-center">Biyografi</h5>
                     <p>{{ user.biography }}</p>
                 {% else %}
                     <h5>Biyografi Belirtilmemiş</h5>
@@ -160,6 +161,9 @@
                             <div class="deleteimage">
                                 <a href="{% url 'updatead' ad.slug %}"><button class="updateadbutton" name="updateadbutton">İlanı Düzenle</button></a>
                             </div>
+                            <div class="deleteimage">
+                                <a href="{% url 'deletead' ad.slug %}"><button class="deleteadbutton" name="deleteadbutton">İlanı Sil</button></a>
+                            </div>
                         </div>
                     </div>
                 {% else %}
@@ -180,12 +184,16 @@
                             <div class="deleteimage">
                                 <a href="{% url 'updatead' ad.slug %}"><button class="updateadbuttondisabled" name="updateadbutton" disabled>İlanı Düzenle</button></a>
                             </div>
+                            <div class="deleteimage">
+                                <a href="{% url 'deletead' ad.slug %}"><button class="deleteadbutton" name="deleteadbutton">İlanı Sil</button></a>
+                            </div>
                         </div>
                     </div>
                 {% endif %}
 
             {% endfor %}
         </div>
+    </div>
     {% else %}
         
     {% endif %}
