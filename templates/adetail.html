@@ -230,7 +230,11 @@
             <div class="col-12 col-md-6">
                 <div class="detailuser">
                     <div class="card detailusercard">
-                        <img src="{{ ad.advertiser.profilepicture.url }}" class="detailuserimage" alt="...">
+                        {% if ad.advertiser.profilpicture %}
+                            <img src="{{ ad.advertiser.profilepicture.url }}" class="detailuserimage" alt="...">
+                        {% else %}
+                            <img src="{% static 'images/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg' %}" class="detailuserimage" alt="...">
+                        {% endif %}
                         <h2 class="text-center">{{ ad.advertiser.first_name }} {{ ad.advertiser.last_name }}</h2>
                         <hr>
                         <div class="card-body">

@@ -126,7 +126,6 @@ def adpost(request):
 
                     adobject = CarSaleAd.objects.create(adname=adname,startingprice=startingprice,tramer=tramer,numberplate=numberplate,brand=brand,model=modelobjects,targetime=targetime,adescription=adescription,advertiser=advertiser)
                     request.session['adobject_id'] = adobject.id
-                    messages.success(request,"İlan Oluşturuldu")
                     step = 4
                 else:
                     messages.warning(request,form3.errors)
@@ -145,7 +144,7 @@ def adpost(request):
                     filterdamagedpart = Damage.objects.filter(ad=adobject, name=request.POST.get("name")) #Eğer daha önce kaydedilen parçalar ile formda kaydedilen parça aynı ise aynı isime sahip parçalar filtreleniyor
                     if filterdamagedpart.count() > 1:
                         filterdamagedpart.delete()
-                        raise ValidationError("Parça Çakışması")
+                        messages.warning(request,"Parça Çakışması")
                     
 
                     damagedpart = Damage.objects.filter(ad=adobject)
@@ -181,7 +180,6 @@ def adpost(request):
                     adobject = CarSaleAd.objects.get(id=adobject_id)
                     image.ad = adobject
                     image.save()
-                    messages.success(request,"Resim Kaydedildi")
                     print(f"resimin kayıt olduğu ilan: {image.ad}, resim: {image.image}")
 
                     imageobjects = Images.objects.filter(ad=adobject)

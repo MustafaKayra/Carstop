@@ -255,15 +255,15 @@
                         </div>
                     </div>  
 
-                    <div class="row align-items-center damagebuttons">
-                        <input type="radio" class="btn-check" name="damagetype" id="option1" autocomplete="off" value="locally">
-                        <label class="btn btn-primary col-md-3 offset-md-1 damagetypelabel" for="option1">Lokal Boyalı</label>
+                    <div class="row justify-content-between damagebuttons">
+                        <input type="radio" class="btn-check damagetype" name="damagetype" id="option1" autocomplete="off" value="locally">
+                        <label class="btn btn-primary col-12 col-md-3 damagetypelabel" for="option1">Lokal Boyalı</label>
 
-                        <input type="radio" class="btn-check" name="damagetype" id="option2" autocomplete="off" value="painted">
-                        <label class="btn btn-warning col-md-3 offset-md-1 damagetypelabel" for="option2">Boyalı</label>
+                        <input type="radio" class="btn-check damagetype" name="damagetype" id="option2" autocomplete="off" value="painted">
+                        <label class="btn btn-warning col-12 col-md-3 damagetypelabel" for="option2">Boyalı</label>
 
-                        <input type="radio" class="btn-check" name="damagetype" id="option3" autocomplete="off" value="changing">
-                        <label class="btn btn-danger col-md-3 offset-md-1 damagetypelabel" for="option3">Değişen</label>
+                        <input type="radio" class="btn-check damagetype" name="damagetype" id="option3" autocomplete="off" value="changing">
+                        <label class="btn btn-danger col-12 col-md-3 damagetypelabel" for="option3">Değişen</label>
                     </div>
 
                     <div class="row damagesubmitbutton">
@@ -280,36 +280,36 @@
             <hr>
             
             {% if damagedpart %}
-            <div class="container">
-                <div class="row addedparts">
+                <div class="container">
+                    <div class="row addedparts">
 
-                <table class="table caption-top partstable">
-                    <thead>
-                        <tr>
-                            <th scope="col">Hasarlı Parça</th>
-                            <th scope="col">Hasar</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for part in damagedpart %}
-                    <form method="post">
-                    {% csrf_token %}
-                        <tr>
-                            <td>{{ part.get_name_display }}</td>
-                            <td>{{ part.get_damagetype_display }}</td>
-                            <td>
-                                <input type="hidden" name="delete_part" value="{{ part.id }}">
-                                <button class="btn btn-danger" type="submit" name="deletepart">Parçayı Sil</button>
-                            </td>
-                        </tr>
-                    </form>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                    <table class="table caption-top partstable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Hasarlı Parça</th>
+                                <th scope="col">Hasar</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for part in damagedpart %}
+                        <form method="post">
+                        {% csrf_token %}
+                            <tr>
+                                <td>{{ part.get_name_display }}</td>
+                                <td>{{ part.get_damagetype_display }}</td>
+                                <td>
+                                    <input type="hidden" name="delete_part" value="{{ part.id }}">
+                                    <button class="btn btn-danger" type="submit" name="deletepart">Parçayı Sil</button>
+                                </td>
+                            </tr>
+                        </form>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
+                    </div>
                 </div>
-            </div>
             {% else %}
                 
             {% endif %}

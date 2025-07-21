@@ -89,7 +89,7 @@ database_url = os.environ.get("DATABASE_URL")
 
 
 DATABASES = {
-    "default": dj_database_url.parse(database_url)
+    "default": dj_database_url.parse("postgresql://carstop_postgre_user:YMl5XojIMnVHsN1nUnvH646Y3bIrMi33@dpg-d1v3hujipnbc73ao4tp0-a.oregon-postgres.render.com/carstop_postgre")
 }
 
 

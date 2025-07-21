@@ -1,8 +1,19 @@
 from django import forms
+from django.core.validators import RegexValidator
 from .models import CustomUser
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, required=False)  # Bunu ekle
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    gsmnumber = forms.CharField(
+        required=False,
+        validators=[
+            RegexValidator(
+                regex=r'^\d{10,11}$',
+                message="Geçerli bir GSM numarası girin. Sadece rakam ve 10-11 hane olmalı.",
+                code='invalid_gsm'
+            )
+        ]
+    )
 
     class Meta:
         model = CustomUser
