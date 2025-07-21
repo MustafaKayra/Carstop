@@ -937,6 +937,7 @@ th {
         box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.30);
         height: 220px;
         width: 335px;
+        background-color: rgba(255, 255, 255, 0.25);
     }
 
 .infocard:hover {
@@ -948,6 +949,9 @@ th {
         width: 335px;
         transition: all 0.3s ease;
         transform: scale(1.08);
+        background-color: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px); /* arka planı blur yapar */
+        -webkit-backdrop-filter: blur(10px); /* Safari desteği için */
     }
 }
 
@@ -1095,4 +1099,34 @@ th {
     background-position: center center;
     padding-bottom: 50px;
     margin-bottom: 30px;
+}
+
+.bids-h5 {
+    font-size: 30px;
+    margin-left: 150px;
+}
+
+@media (max-width: 768px) {
+    .bids-h5 {
+        font-size: 30px;
+        margin-left: 0px;
+    }
+}
+
+.bids-button {
+    margin-left: 150px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .bids-button {
+        margin-bottom: 30px;
+        margin-left: 0px !important;
+        margin-right: 0px;
+    }
+}
+
+.datepicker {
+    border: 0px !important;
+    padding: 0px !important;
 }

@@ -39,6 +39,9 @@
                         <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
                     </li>
                     <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'ads' %}">İlanlar</a>
+                    </li>
+                    <li class="nav-item me-3">
                         <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
                     </li>
                     <li class="nav-item me-3">
@@ -94,40 +97,46 @@
         <div class="container filtercontainer">
         <form method="post">
         {% csrf_token %}
-            <div class="row text-center filtercol">
-                <div class="col-4">
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input type="number" name="minprice" class="form-control filterinput" placeholder="Minimum Fiyat">
+            <div class="row g-3 text-center filtercol">
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="minprice" class="form-control filterinput" placeholder="Minimum Fiyat">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input type="number" name="maxprice" class="form-control filterinput" placeholder=" Maksimum Fiyat">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input type="number" name="mintramer" class="form-control filterinput" placeholder="Minimum Tramer">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="input-group">
-                            <input type="number" name="maxtramer" class="form-control filterinput" placeholder="Maksimum Tramer">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="maxprice" class="form-control filterinput" placeholder=" Maksimum Fiyat">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="col-6">
-                        <div class="input-group date" id="datepicker">
-                            <input type="text" class="form-control" name="targetime" id="date" placeholder="Tarih" />
-                            <span class="input-group-append">
-                            <span class="input-group-text bg-light d-block">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                            </span>
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="mintramer" class="form-control filterinput" placeholder="Minimum Tramer">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="maxtramer" class="form-control filterinput" placeholder="Maksimum Tramer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group date datepicker" id="datepicker">
+                                <input type="text" class="form-control" name="targetime" id="date" placeholder="Tarih" />
+                                <span class="input-group-append">
+                                <span class="">
+                                    
+                                </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

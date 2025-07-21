@@ -38,6 +38,9 @@
                         <a class="nav-link navbartext" href="{% url 'loginuser' %}">Giriş</a>
                     </li>
                     <li class="nav-item me-3">
+                        <a class="nav-link navbartext" href="{% url 'ads' %}">İlanlar</a>
+                    </li>
+                    <li class="nav-item me-3">
                         <a class="nav-link navbartext" href="{% url 'detailuser' request.user.id %}">Profil</a>
                     </li>
                     <li class="nav-item me-3">
@@ -91,6 +94,7 @@
     </section>
 
             <div class="col-6 bidobjects">
+            {% if bid_objects %}
                 {% for bid in bid_objects %}
                 <div class="col d-flex justify-content-center">
                     <div class="card h-100 bidcarditem" onclick="window.location.href='{% url 'adetail' bid.ad.slug %}'">
@@ -114,6 +118,13 @@
                     </div>
                 </div>
                 {% endfor %}
+            {% else %}
+                <h5 class="text-center bids-h5">Herhangi Bir Fiyat Teklifi Bulunamadı</h5>
+                <div class="text-center bids-button">
+                    <a href="{% url 'ads' %}"><button class="btn btn-primary filtersubmitbutton">İlanlara Göz Atın</button></a>
+                </div>
+            {% endif %}
+                
             </div>
 
     
