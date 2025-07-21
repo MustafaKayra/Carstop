@@ -30,7 +30,7 @@ def create_superuser():
         User.objects.create_superuser(
             first_name = "Mustafa Kayra",
             last_name = "Toker",
-            email="m.toker2009@gmail.com",
+            email="m.toker1111@gmail.com",
             password="adminpassword123"
         )
 
