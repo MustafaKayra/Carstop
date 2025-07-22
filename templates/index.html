@@ -196,13 +196,13 @@
                   <h3 class="useful_text">Menü</h3>
                   <div class="footer_menu">
                   {% if request.user %}
-                    <ul>
-                        <li><a href="/">Anasayfa</a></li>
-                        <li><a href="{% url 'createuser' %}">Kayıt</a></li>
-                        <li><a href="{% url 'loginuser' %}">Giriş</a></li>
+                    <ul class="footer_ul">
+                        <li><a class="footertext" href="/">Anasayfa</a></li>
+                        <li><a class="footertext" href="{% url 'createuser' %}">Kayıt</a></li>
+                        <li><a class="footertext" href="{% url 'loginuser' %}">Giriş</a></li>
                      </ul>
                   {% else %}
-                    <ul>
+                    <ul class="footer_ul">
                         <li><a href="/">Anasayfa</a></li>
                         <li><a href="{% url 'createuser' %}">Kayıt</a></li>
                         <li><a href="{% url 'loginuser' %}">Giriş</a></li>

@@ -1052,7 +1052,7 @@ th {
 }
 
 .updateusersection {
-    background-image: url("../images/volkswagen-golf-8-2019.jpg");
+    background-image: url("../images/kia-sorento-1.webp");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -1070,7 +1070,7 @@ th {
 }
 
 .indexsection {
-    background-image: url("../images/mercedes-benz-mercedes-amg-s65-black-car-car-luxury-car-hd-wallpaper-preview.jpg");
+    background-image: url("../images/mercedes-benz-amg-cgi-8c.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -1129,4 +1129,20 @@ th {
 .datepicker {
     border: 0px !important;
     padding: 0px !important;
+}
+
+.footertext {
+    font-size: 17px;
+    color: #ffffff !important;
+}
+
+.footertext:hover {
+    font-size: 17px;
+    color: #ffffff !important;
+    transition: all 0.3s ease !important;
+    transform: scale(1.08) !important;
+}
+
+.footer_ul {
+    padding: 0px;
 }
