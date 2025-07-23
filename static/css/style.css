@@ -988,6 +988,7 @@ th {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    background-attachment: fixed;
 }
 
 .modelsection {
@@ -995,6 +996,7 @@ th {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    background-attachment: fixed;
 }
 
 .adstartersection {
@@ -1083,6 +1085,7 @@ th {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    background-attachment: fixed;
 }
 
 .filtermodelsection {
@@ -1090,6 +1093,7 @@ th {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    background-attachment: fixed;
 }
 
 .filterstartersection {
