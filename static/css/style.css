@@ -558,6 +558,28 @@ th {
     margin-top: 25px !important;
 }
 
+.loginuserbutton {
+    margin-top: 25px !important;
+    margin-bottom: 190px;
+}
+
+@media (max-width: 768px) {
+    .loginuserbutton {
+        margin-top: 25px !important;
+        margin-bottom: 80px;
+    }
+}
+
+.loginuserow {
+    margin-top: 180px !important;
+}
+
+@media (max-width: 768px) {
+    .loginuserow {
+        margin-top: 70px !important;
+    }
+}
+
 .updateuserimage {
     width: 250px;
     height: 250px;
@@ -1076,7 +1098,7 @@ th {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    padding-bottom: 100px;
+    padding-bottom: 150px;
     margin-bottom: 30px;
 }
 
@@ -1115,6 +1137,12 @@ th {
         font-size: 30px;
         margin-left: 0px;
     }
+}
+
+.ads-h5 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 30px;
 }
 
 .bids-button {

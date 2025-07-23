@@ -204,12 +204,87 @@
             <div class="text-center">
                 <button class="btn btn-success filtersubmitbutton" type="submit" name="form6">İlanları Filtrele</button>
             </div>
-            {% if step == 4 %}
-            <div class="text-center">
-                <button class="btn btn-danger filtersubmitbutton" type="submit" name="filterdeletebutton">Filtreleri Kaldır</button>
+        </form>
+        </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for ad in ads %}
+                <div class="col">
+                    <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                        <button class="adformbuttonitem" type="submit">
+                            <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ ad.adname }}</h5>
+                            </div>
+                            <ul class="list-group list-group-flush modelinfo">
+                                <li class="list-group-item">{{ ad.startingprice }} TL</li>
+                                <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
+                                <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
+                                <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
+                            </ul>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            {% else %}
-            {% endif %}
+        </div>
+
+    {% elif step == 4 %}
+
+        <section id="filterilanbaslangic" class="filterstartersection">
+            <h1 class="text-center pagetitle">Aramanıza Uygun İlanlar</h1>
+            <p class="text-center pageparagraph">Filtrelerinize Göre Araba İlanları</p>
+        </section>
+        <div class="container">
+        <form method="post">
+        {% csrf_token %}
+            <div class="row g-3 text-center">
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="minprice" class="form-control filterinput" placeholder="Minimum Fiyat">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="maxprice" class="form-control filterinput" placeholder=" Maksimum Fiyat">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="mintramer" class="form-control filterinput" placeholder="Minimum Tramer">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group">
+                                <input type="number" name="maxtramer" class="form-control filterinput" placeholder="Maksimum Tramer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group date datepicker" id="datepicker">
+                                <input type="text" class="form-control" name="targetime" id="date" placeholder="Tarih" />
+                                <span class="input-group-append">
+                                <span class="">
+                                    
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-success filtersubmitbutton" type="submit" name="form6">İlanları Filtrele</button>
+            </div>
         </form>
         </div>
         <div class="container">

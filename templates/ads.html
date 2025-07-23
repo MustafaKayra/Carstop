@@ -93,7 +93,6 @@
             <h1 class="text-center pagetitlewhite">İLANLAR</h1>
             <p class="text-center pageparagraphwhite">Diğer Araç Sahiplerinin İlanlarına Buradan Göz Atabilirsiniz</p>
         </section>
-        <hr>
         <div class="container filtercontainer">
         <form method="post">
         {% csrf_token %}
@@ -143,6 +142,11 @@
             </div>
             <div class="text-center">
                 <button class="btn btn-success filtersubmitbutton" type="submit" name="filterformbutton">İlanları Filtrele</button>
+                {% if ads %}
+
+                {% else %}
+                    <h5 class="ads-h5">Herhangi Bir Araç Bulunamadı</h5>
+                {% endif %}
             </div>
             {% if step == 2 %}
             <div class="text-center">
@@ -154,24 +158,24 @@
         </div>
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for ad in ads %}
-                <div class="col">
-                    <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
-                        <button class="adformbuttonitem" type="submit">
-                            <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ ad.adname }}</h5>
-                            </div>
-                            <ul class="list-group list-group-flush modelinfo">
-                                <li class="list-group-item">{{ ad.startingprice }} TL</li>
-                                <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
-                                <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
-                                <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
-                            </ul>
-                        </button>
+                    {% for ad in ads %}
+                    <div class="col">
+                        <div class="card h-100 carditem" onclick="window.location.href='{% url 'adetail' ad.slug %}'">
+                            <button class="adformbuttonitem" type="submit">
+                                <img class="indexcardimage" src="{{ ad.images_set.first.image.url }}" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ ad.adname }}</h5>
+                                </div>
+                                <ul class="list-group list-group-flush modelinfo">
+                                    <li class="list-group-item">{{ ad.startingprice }} TL</li>
+                                    <li class="list-group-item">{{ ad.brand.brandname }} | {{ ad.model.modelname }}</li>
+                                    <li class="list-group-item">{{ ad.targetime }} Tarihli</li>
+                                    <li class="list-group-item">{{ ad.model.enginesize }} Litre | {{ ad.model.fueltype }} | {{ ad.model.enginepower }} HP</li>
+                                </ul>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
             </div>
         </div> 
 

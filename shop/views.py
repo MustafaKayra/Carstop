@@ -492,19 +492,18 @@ def filterad(request):
                 model = CarModel.objects.get(id=model_id)
                 brand = CarBrand.objects.get(id=brand_id)
                 ads = CarSaleAd.objects.filter(brand=brand, model=model)
+                print(ads)
 
                 minprice = request.POST.get("minprice")
                 maxprice = request.POST.get("maxprice")
                 mintramer = request.POST.get("mintramer")
                 maxtramer = request.POST.get("maxtramer")
                 targetime = request.POST.get("targetime")
-                print(targetime)
-                step = 3
 
                 if minprice:
                     ads = ads.filter(startingprice__gte=minprice)
                     step = 4
-                
+
                 if maxprice:
                     ads = ads.filter(startingprice__lte=maxprice)
                     step = 4
@@ -524,7 +523,9 @@ def filterad(request):
                         ads = ads.filter(targetime__date__lte=date_obj.date())
                         step = 4
                     except ValueError:
-                        messages.warning(request,"Belirttiğiniz Zaman Dilimi Yanlış!")
+                        messages.warning(request,"Belirttiğiniz Zaman Dilimi Geçerli Değil!")
+                
+                step = 4
 
             
             elif "filterdeletebutton" in request.POST:
@@ -538,6 +539,8 @@ def filterad(request):
             messages.warning(request,"İlanları Filtrelemek İçin Giriş Yapın!")
             return redirect('loginuser')
 
+    print("step:", step)
+    print(ads)
     context = {
         "carbrand": carbrand,
         "step": step,
