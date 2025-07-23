@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@ul(o@ld81*qlu07lb3c7cy*3sb7uef)i-m9@5y4(7^dfc_of='
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1").split(" ")
 
 
 # Application definition
@@ -89,10 +89,7 @@ database_url = os.environ.get("DATABASE_URL")
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.parse("postgresql://carstop_postgre_user:YMl5XojIMnVHsN1nUnvH646Y3bIrMi33@dpg-d1v3hujipnbc73ao4tp0-a.oregon-postgres.render.com/carstop_postgre")
 }
 
 
