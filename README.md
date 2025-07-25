@@ -4,22 +4,35 @@ Bu projede kullanıcılar araçlarını 2 dakikadan az bir süre içerisinde iha
 
 # Bu Sitede
 🚗 Belli bir tarihe bağlı olarak araç ilanı oluşturma
+
 👤 Kullanıcı kayıt/giriş sistemleri
+
 🔍 Araç ilanlarını detaylı inceleme ve teklif sunma
+
 🎯 Kullanıcı kriterlerine göre ilan filtreleme
+
 💸 Fiyat teklifleri ve ilanları düzenleme paneli
+
 🛠️ Profil bilgilerini düzenleme
+
 📧 Email ile kullanıcı bilgilendirme sistemi
+
 📱 Kullanıcı deneyimine yönelik modern ve responsive tasarım
 
 
 # Projede Kullanılan Teknolojiler
 🐍 Python / Django: Backend tarafında veri yönetimi ve CRUD işlemleri gerçekleştirildi
+
 🎨 HTML ve CSS: Sitenin temel tasarım ve estetik yapısı oluşturuldu
-📐 Bootstrap 5: Grid sistemini kullanarak responsive yapı oluşturuldu
+
+📐 Bootstrap 5: Grid sistemini kullanarak responsive yapı 
+
 🕒 JavaScript: Tarih ve zaman formu için tarih formatı tanımlandı
+
 🐘 PostgreSQL: Verileri daha sağlam ve hızlı bir şekilde sunmak için altyapı oluşturuldu
+
 🚀 Render: Siteyi canlı ortama almak için GitHub ile entegre bir şekilde kullanıldı
+
 ☁️ Cloudinary: Siteye yüklenen medya dosyalarının bulut ortamında sunulması için kullanıldı
 
 
